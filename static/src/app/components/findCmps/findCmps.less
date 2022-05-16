@@ -1,0 +1,73 @@
+@ib: inline-block;
+
+.hide {
+  display: none;
+}
+
+.findWrap {
+  font-size: 1.6rem;
+  margin: 1rem 0;
+
+
+  .innerWrap {
+    display: @ib;
+    width: 25rem;
+    background-color: #eee;
+    padding: 1rem;
+    margin-left: 2rem;
+    border: 1px solid transparent;
+    border-radius: 3rem;
+
+    .city {
+      cursor: pointer;
+    }
+
+    .fgDiv {
+      margin-left: 1rem;
+      display: @ib;
+      &::after {
+        content: "|";
+      }
+    }
+
+    span {
+      margin-left: 1rem;
+    }
+  }
+
+  .rightWrap {
+    display: @ib;
+    margin-left: 2rem;
+    .select {
+      cursor: pointer;
+    }
+  }
+
+  .showCity {
+    margin: 0;
+    list-style: none;
+    border: 1px solid black;
+    width: 1rem;
+  }
+
+  .cityList {
+    margin: 0.13rem 0;
+    cursor: pointer;
+  }
+  .ib {
+    display: @ib;
+  }
+
+  .content {
+    background: #eee;
+    border: none;
+    margin-left: 0.5rem;
+    outline: none;
+    font-size: 1.6rem;
+    width: 16rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}

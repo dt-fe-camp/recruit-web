@@ -1,0 +1,42 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch RecruitTest",
+      "request": "launch",
+      "mainClass": "recruit.RecruitTest",
+      "projectName": "recruit"
+    },
+    {
+      "type": "java",
+      "name": "Launch WelfareTest",
+      "request": "launch",
+      "mainClass": "recruit.WelfareTest",
+      "projectName": "recruit"
+    },
+    {
+      "type": "java",
+      "name": "Launch HelloMyBatis",
+      "request": "launch",
+      "mainClass": "recruit.HelloMyBatis",
+      "projectName": "recruit"
+    },
+    {
+      "type": "java",
+      "name": "Launch Current File",
+      "request": "launch",
+      "mainClass": "${file}"
+    },
+    {
+      "type": "java",
+      "name": "Launch RecruitApplication",
+      "request": "launch",
+      "mainClass": "recruit.RecruitApplication",
+      "projectName": "recruit"
+    }
+  ]
+}

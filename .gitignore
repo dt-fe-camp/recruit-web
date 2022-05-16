@@ -1,0 +1,16 @@
+# common
+node_modules
+.DS_Store
+*.log
+*.gz
+
+# client
+yarn.lock
+
+# server
+server/target
+server/logs
+server/.idea
+server/lib
+project.properties
+application.properties

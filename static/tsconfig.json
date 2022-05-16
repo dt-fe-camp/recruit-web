@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "rootDir": ".",
+    "typeRoots": ["./node_modules/@types", "./src/static/types"],
+    "jsx": "react",
+    "baseUrl": ".",
+    "module": "commonjs",
+    "strict": false,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@admin/*": ["src/admin/*"]
+    }
+  },
+  "include": [
+    "src/admin",
+    "build/*"
+  ],
+  "exclude": [
+    "src/app",
+    "src/preScript.js"
+  ]
+}

@@ -1,0 +1,73 @@
+.selecter-page-wrap {
+  box-sizing: border-box;
+  .selecter-page {
+    padding: 0 2rem;
+  }
+  .back-button {
+    padding: 2rem 0;
+    font-size: 1.8rem;
+    font-weight: 500;
+    .back-button-symbol {
+      margin-right: 2rem;
+    }
+  }
+  .selecter-page-port-wrap {
+    .selecter-page-port {
+      &:not(:nth-child(1)) {
+        padding-top: 4rem;
+      }
+      .selecter-page-port-name {
+        padding: 1rem 0 2rem 0;
+        font-size: 1.8rem;
+      }
+      .selecter-page-port-ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 1.1rem;
+        grid-row-gap: 1rem;
+        .selecter-page-port-ul-li {
+          text-align: center;
+          width: 10.5rem;
+          padding: 2rem 0;
+          background-color: #eee;
+          border: 0.1rem solid transparent;
+          border-radius: 0.5rem;
+        }
+      }
+    }
+  }
+  .button-areas-wrap {
+    padding: 4rem 0 1rem 0;
+    .button-areas {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      .clear-select {
+        padding: 1rem 0;
+        width: 12rem;
+        border: 0.2rem solid skyblue;
+        border-radius: 2rem;
+        color: skyblue;
+      }
+      .submit{
+        padding: 1rem 0;
+        width: 18rem;
+        border-radius: 2rem;
+        background-color: rgb(20, 54, 245);
+        color: #eee;
+      }
+    }
+  }
+  .selected {
+    border: 0.1rem solid rgb(206,223,228) !important;
+    background-color: rgb(240,249,254) !important;
+    color: rgb(160,206,248) !important;
+  }
+  .single-select {
+    font-size: 1.4rem;
+    color: #666;
+  }
+  .aaa {
+    height: 1000rem;
+  }
+}
