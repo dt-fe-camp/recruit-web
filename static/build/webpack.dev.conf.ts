@@ -4,9 +4,7 @@
  */
 
 import merge from 'webpack-merge';
-import path from 'path';
 import 'webpack-dev-server';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import base from './webpack.base.conf';
 
 // @ts-ignore
@@ -30,14 +28,6 @@ const DEV_CONF = merge(base, {
   devtool: 'source-map',
 
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'react-dom',
-      filename: 'index.html',
-      chunks: ['index'],
-      template: path.join(__dirname, 'template.html'),
-      inject: true,
-    }),
-
     new FriendlyErrorsPlugin({
       compilationSuccessInfo: {
         messages: ['Your application is running here: http://127.0.0.1:8787'],

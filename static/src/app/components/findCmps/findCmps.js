@@ -1,5 +1,5 @@
 import './findCmps.less';
-import { MainContent } from '../mainContents/mainContent';
+import { MainContent } from '../mainContent/mainContent';
 import React from 'react';
 import {  Link } from 'react-router-dom';
 

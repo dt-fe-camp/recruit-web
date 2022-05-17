@@ -1,4 +1,4 @@
-import pic from "../components/mainContents/logo192.png";
+import pic from "../components/mainContent/logo192.png";
 
 export const FAKE_DATA = [
   {

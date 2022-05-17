@@ -4,11 +4,8 @@
  */
 
 import React from 'react';
-import { render } from 'react-dom';
-
-const Main = (): JSX.Element => (
-  <div>admin测试</div>
-);
+import {render} from 'react-dom';
+import {Main} from './pages/index';
 
 render(<Main />, document.querySelector('#root'));
 

@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
+    "target": "ES5",
     "rootDir": ".",
     "typeRoots": ["./node_modules/@types", "./src/static/types"],
     "jsx": "react",
     "baseUrl": ".",
     "module": "commonjs",
-    "strict": false,
+    "strict": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -19,11 +19,11 @@
     }
   },
   "include": [
+    "src/app",
     "src/admin",
     "build/*"
   ],
   "exclude": [
-    "src/app",
     "src/preScript.js"
   ]
 }

@@ -6,6 +6,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Configuration, DefinePlugin } from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 // import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 // import CopyWebpackPlugin from 'copy-webpack-plugin';
 
@@ -18,20 +19,17 @@ const babelLoader = {
   options: {
     cacheDirectory: IS_DEV,
     presets: [
-      ['@babel/preset-env',
-        {
-          modules: 'commonjs',
-          loose: true,
-        },
-      ],
       [
         '@babel/preset-react',
         {
           runtime: 'automatic',
         },
       ],
+      '@babel/preset-typescript',
     ],
-    plugins: ['@babel/plugin-transform-runtime'],
+    plugins: [
+      '@babel/plugin-transform-runtime',
+    ],
   },
 };
 
@@ -48,13 +46,15 @@ const lessLoader = [
   },
 ];
 
+const entry = {
+  app: './src/app/index.js',
+  admin: './src/admin/index.tsx',
+};
+
 const CONFIG: Configuration = {
   context: path.resolve(__dirname, '../'),
 
-  entry: {
-    app: './src/app/index.js',
-    admin: './src/admin/index.tsx',
-  },
+  entry: entry,
 
   output: {
     filename: '[name].[chunkhash].js',
@@ -63,7 +63,7 @@ const CONFIG: Configuration = {
   },
 
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.less', '.ttf'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.less'],
     alias: {
       '@admin': resolve('../src/admin'),
     },
@@ -77,20 +77,9 @@ const CONFIG: Configuration = {
         use: [
           'cache-loader',
           babelLoader,
-          {
-            loader: 'ts-loader',
-            options: {
-              transpileOnly: true,
-              configFile: resolve('../tsconfig.json'),
-              compilerOptions: {
-                module: 'commonjs',
-                target: 'es5',
-              },
-            },
-          },
         ],
         include: [
-          resolve('../src/'),
+          resolve('../src'),
           resolve('../node_modules'),
         ],
       },
@@ -179,6 +168,15 @@ const CONFIG: Configuration = {
       filename: '[name].[hash].css',
       chunkFilename: '[name].[hash].css',
     }),
+    ...Object.keys(entry).map(item =>
+      new HtmlWebpackPlugin({
+        title: item,
+        filename: `${item}.html`,
+        chunks: [item],
+        template: path.join(__dirname, 'template.html'),
+        inject: true,
+      })
+    ),
     // new WebpackManifestPlugin({}),
     // new CopyWebpackPlugin({
     //   patterns: [
