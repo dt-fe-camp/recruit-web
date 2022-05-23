@@ -70,10 +70,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // .permitAll()
         .authorizeRequests()
         .antMatchers(loginUrl).permitAll()
-        .anyRequest().authenticated()
+        // .anyRequest().authenticated()
 
         .and()
-        .addFilterAt(useMyUsrPwdAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+        // .addFilterAt(useMyUsrPwdAuthFilter(), UsernamePasswordAuthenticationFilter.class)
         .formLogin()
         .loginProcessingUrl(loginUrl)
         .permitAll()
