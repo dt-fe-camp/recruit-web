@@ -12,4 +12,4 @@ printf "%s" $SERVER_BUILDER;
 # server
 cd "${ROOT_DIR}/server";
 mvn clean package -Dmaven.test.skip=true;
-# sh $SERVER_BUILDER;
+
