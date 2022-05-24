@@ -8,12 +8,12 @@
 		<version>2.6.2</version>
 		<relativePath />
 	</parent>
-	<groupId>fe.training</groupId>
-	<artifactId>recruit</artifactId>
-	<packaging>war</packaging>
+	<groupId>dt.fe.camp</groupId>
+	<artifactId>recruit-web</artifactId>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
 	<name>Spring Boot Web Recruit Web</name>
 	<description>Spring Boot Web Recruit Web</description>
-	<version>0.0.1-SNAPSHOT</version>
 	<url>http://projects.spring.io/spring-boot/</url>
 	<organization>
 		<name>Pivotal Software, Inc.</name>
