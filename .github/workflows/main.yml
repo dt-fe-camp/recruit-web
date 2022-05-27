@@ -53,3 +53,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           source: "server/target/recruit-web-0.0.1.jar"
           target: ${{ secrets.REMOTE_TARGET }}
+          strip_components: 1
