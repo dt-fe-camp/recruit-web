@@ -24,6 +24,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      - name: Setup Debug Session
+        uses: csexton/debugger-action@master
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -53,15 +55,15 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           source: "server/target/recruit-web-0.0.1.jar,release/server-manager.sh"
           target: ${{ secrets.REMOTE_TARGET }}
-          strip_components: 2
+          # strip_components: 2
 
-      - name: restart application
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.SSH_USER_NAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd ${{ secrets.REMOTE_TARGET }}
-            echo $(pwd)
-            sh ./server-manager.sh restart ${{ secrets.REMOTE_TARGET }} ${{ secrets.JASYPT_SECRET }}
+      # - name: restart application
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.REMOTE_HOST }}
+      #     username: ${{ secrets.SSH_USER_NAME }}
+      #     password: ${{ secrets.SSH_PASSWORD }}
+      #     script: |
+      #       cd ${{ secrets.REMOTE_TARGET }}
+      #       echo $(pwd)
+      #       sh ./server-manager.sh restart ${{ secrets.REMOTE_TARGET }} ${{ secrets.JASYPT_SECRET }}
