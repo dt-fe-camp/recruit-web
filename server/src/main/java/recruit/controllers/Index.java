@@ -24,7 +24,7 @@ public class Index {
   @Autowired
   private RecruitDao recruitDao;
 
-  @RequestMapping(value="/hello")
+  @RequestMapping(value="/api")
   public String hello(HttpServletResponse response) throws JsonProcessingException {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     System.out.println("当前上线文" + principal.toString());

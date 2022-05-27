@@ -54,3 +54,13 @@ jobs:
           source: "server/target/recruit-web-0.0.1.jar"
           target: ${{ secrets.REMOTE_TARGET }}
           strip_components: 2
+
+      - name: restart application
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.SSH_USER_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            kill $(ps -aux | grep "recruit-web-0.0.1.jar" | awk '{print $2}')
+            nohup java -jar recruit-web-0.0.1.jar --jasypt.encryptor.password=${{ secrets.JASYPT_SECRET }} &
