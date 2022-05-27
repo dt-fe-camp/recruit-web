@@ -13,17 +13,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import recruit.dao.RecruitDao;
 import recruit.model.RecruitWithBLOBs;
 import recruit.utils.ResponseResult;
 import recruit.utils.WebUtils;
 
 @RestController
+@Api(tags="用户管理")
 public class Index {
   @Autowired
   private RecruitDao recruitDao;
 
-  @RequestMapping(value="/list/api")
+  @RequestMapping(value="/api/list")
   public String hello(HttpServletResponse response) throws JsonProcessingException {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     System.out.println("当前上线文" + principal.toString());
