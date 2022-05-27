@@ -62,5 +62,6 @@ jobs:
           username: ${{ secrets.SSH_USER_NAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            kill $(ps -aux | grep "recruit-web-0.0.1.jar" | awk '{print $2}')
+            kill $(ps -aux | grep "recruit-web-0.0.1.jar" | awk '{print $2}') || true
+            cd ${{ secrets.REMOTE_TARGET }}
             nohup java -jar recruit-web-0.0.1.jar --jasypt.encryptor.password=${{ secrets.JASYPT_SECRET }} &
