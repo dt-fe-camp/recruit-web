@@ -63,4 +63,5 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd ${{ secrets.REMOTE_TARGET }}
+            echo $(pwd)
             sh ./server-manager.sh restart ${{ secrets.REMOTE_TARGET }} ${{ secrets.JASYPT_SECRET }}
