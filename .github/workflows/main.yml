@@ -44,19 +44,12 @@ jobs:
         shell: bash
 
        # deploy step
-      - name: deploy server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          # 复制操作的参数。"-avzr --delete"意味部署时清空服务器目标目录下的文件
-          ARGS: "-rltgoDzvO --delete"
-          # 源目录，相对于仓库内容根目录的路径
-          SOURCE: "server/target/recruit-web-0.0.1.jar"
-          # 远程服务器地址
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          # 远程服务器用户名
-          REMOTE_USER: "root"
-          # 目标目录（远程服务器路径）
-          TARGET: ${{ secrets.REMOTE_TARGET }}
-
-
+      - name: rsync deployments
+        uses: appleboy/scp-action@master
+        with:
+          switches: -avzr --delete
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.SSH_USER_NAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "server/target/recruit-web-0.0.1.jar"
+          target: ${{ secrets.REMOTE_TARGET }}
