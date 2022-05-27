@@ -64,3 +64,5 @@ jobs:
           script: |
             processIds=$(ps -aux | grep "recruit-web-0.0.1.jar" | awk '{print $2}') || true
             kill -s 9 $processIds;
+             cd ${{ secrets.REMOTE_TARGET }}
+            nohup java -jar recruit-web-0.0.1.jar --jasypt.encryptor.password=${{ secrets.JASYPT_SECRET }} &
