@@ -63,4 +63,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             processIds=$(ps -aux | grep "recruit-web-0.0.1.jar" | awk '{print $2}') || true
-            echo $processIds
+            kill -s 9 $processIds;
