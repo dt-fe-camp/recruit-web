@@ -13,3 +13,6 @@ printf "%s" $SERVER_BUILDER;
 cd "${ROOT_DIR}/server";
 mvn clean package -Dmaven.test.skip=true;
 
+# 必须同一级
+cp -f $ROOT_DIR/release/server-manager.sh ./target
+
