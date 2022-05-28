@@ -19,8 +19,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
-@EnableWebMvc
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+public class SwaggerConfig {
   @Bean
   public Docket createRestApi() {
     return new Docket(DocumentationType.OAS_30)

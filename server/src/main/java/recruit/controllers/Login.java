@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import recruit.model.SysUser;
 import recruit.service.LoginService;
 import recruit.utils.ResponseResult;
 
+@Api(tags="客户端")
 @RestController
 public class Login {
   @Autowired

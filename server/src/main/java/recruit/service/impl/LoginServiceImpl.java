@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import recruit.model.admin.user.LoginedUserDetails;
 import recruit.service.LoginService;
-import recruit.utils.JwtUtil;
 import recruit.utils.ResponseResult;
 
 @Service

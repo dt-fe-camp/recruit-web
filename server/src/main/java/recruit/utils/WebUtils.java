@@ -6,8 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class WebUtils
-{
+public class WebUtils {
     /**
      * 将字符串渲染到客户端
      *
