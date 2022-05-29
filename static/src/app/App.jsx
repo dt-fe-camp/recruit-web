@@ -5,7 +5,6 @@ import CitySelecter from './components/citySelecter/citySelecter.js';
 import { EmptyPage } from './components/emptyPage/emptyPage';
 import DetailsPage from './components/detalisPage/detailsPage.js';
 import { SelecterPage } from './components/selecterPage/selecterPage.js';
-import { MainContent } from './components/mainContent/mainContent';
 import { BrowserRouter, Switch,  Route } from 'react-router-dom';
 
 
@@ -31,14 +30,14 @@ export class App extends PureComponent {
   render() {
     return (
       <div className="App">
-        <BrowserRouter>
+        <BrowserRouter basename="/recruit/app">
           <Switch>
             <Route exact path='/citySelecter' component={CitySelecter} />
             <Route exact path='/:city' component={FindCmps} />
             <Route exact path='/a/emptyPage' component={EmptyPage} />
             <Route exact path='/a/a/detailsPage' component={DetailsPage} />
             <Route exact path='/b/b/selecterPage' component={SelecterPage} />
-            <Route component={MainContent}/>
+            <Route component={FindCmps}/>
           </Switch>
         </BrowserRouter>
       </div>

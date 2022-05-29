@@ -26,6 +26,6 @@ public interface DtsDao {
     "where tmp.pValue = \"${value}\""
   )
   @ResultType(value=DtsRawDataItem.class)
-  public List<DtsRawDataItem> findRegionRawDataItems(String value);
+  public List<DtsRawDataItem> findTreeDts(String value);
 }
 

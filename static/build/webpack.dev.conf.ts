@@ -10,17 +10,28 @@ import base from './webpack.base.conf';
 // @ts-ignore
 import FriendlyErrorsPlugin from '@soda/friendly-errors-webpack-plugin';
 
+const isRdProxy = process.env.NODE_API_PROXY === 'true';
+
+const proxyTable = {
+  '/recruit/api': {
+    target: 'https://jsplayer.cn/',
+    secure: false,
+  },
+};
+
 const DEV_CONF = merge(base, {
   devServer: {
     compress: true,
     host: '0.0.0.0',
     port: 8787,
+    allowedHosts: 'all',
     historyApiFallback: {
       rewrites: [{
         from: /\//,
         to: '/',
       }],
     },
+    proxy: isRdProxy ? proxyTable : undefined,
   },
 
   mode: 'development',

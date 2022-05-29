@@ -23,6 +23,6 @@ public class MyAuthFailureHandler implements AuthenticationFailureHandler {
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException exception) throws IOException, ServletException {
     ResponseResult<Map<String, String>> result = new ResponseResult<>(401, exception.getMessage());
-    WebUtils.responseData(response, result);
+    WebUtils.responseData(response, result, true);
   }
 }

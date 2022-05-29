@@ -54,18 +54,19 @@ const entry = {
 const CONFIG: Configuration = {
   context: path.resolve(__dirname, '../'),
 
-  entry: entry,
+  entry,
 
   output: {
-    filename: '[name].[chunkhash].js',
-    publicPath: '/',
-    path: resolve('../dist/node-server/static')
+    filename: '[name]/[name].[chunkhash].js',
+    publicPath: '/recruit',
+    path: resolve('../dist/node-server/static'),
   },
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.less'],
     alias: {
-      '@admin': resolve('../src/admin'),
+      '@': resolve('../src/'),
+      '@api': resolve('../src/common/api'),
     },
     fallback: { url: false },
   },
@@ -165,18 +166,16 @@ const CONFIG: Configuration = {
     }),
     new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].[hash].css',
-      chunkFilename: '[name].[hash].css',
+      filename: '[name]/[name].[hash].css',
+      chunkFilename: '[name]/[name].[hash].css',
     }),
-    ...Object.keys(entry).map(item =>
-      new HtmlWebpackPlugin({
-        title: item,
-        filename: `${item}.html`,
-        chunks: [item],
-        template: path.join(__dirname, 'template.html'),
-        inject: true,
-      })
-    ),
+    ...Object.keys(entry).map(item => new HtmlWebpackPlugin({
+      title: item,
+      filename: `${item}/index.html`,
+      chunks: [item],
+      template: path.join(__dirname, 'template.html'),
+      inject: true,
+    })),
     // new WebpackManifestPlugin({}),
     // new CopyWebpackPlugin({
     //   patterns: [

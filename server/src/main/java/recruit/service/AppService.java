@@ -49,7 +49,7 @@ public class AppService {
   }
 
   public List<DtsItem> getRegionDts() throws IllegalAccessException, InvocationTargetException {
-    List<DtsRawDataItem> rawItems = this.dtsDao.findRegionRawDataItems("region");
+    List<DtsRawDataItem> rawItems = this.dtsDao.findTreeDts("region");
     return TreeDtsUtil.createDtsByListData(rawItems);
   }
 

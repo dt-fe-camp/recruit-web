@@ -34,6 +34,6 @@ public class Admin {
   public String getPublishFieldsDts(HttpServletResponse response)
     throws InvocationTargetException, JsonProcessingException, IllegalAccessException {
     Map<String, AdminPublishResultItem> adminPublishDtsMap = adminPublishService.getPublishDataSource();
-    return WebUtils.responseData(response, new ResponseResult<>(adminPublishDtsMap));
+    return WebUtils.responseData(response, new ResponseResult<>(adminPublishDtsMap), true);
   }
 }

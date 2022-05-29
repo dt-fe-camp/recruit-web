@@ -1,10 +1,10 @@
 import './mainContent.less';
-import React from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FAKE_DATA } from '../../const/mainContentFakeData.js';
 
-export class MainContent extends React.Component {
+export class MainContent extends Component {
   render() {
     return (
       <div className="mainComponent">

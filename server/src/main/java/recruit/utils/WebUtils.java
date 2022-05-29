@@ -2,6 +2,7 @@ package recruit.utils;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -35,7 +36,29 @@ public class WebUtils {
             response.setStatus(200);
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
-            String dataString = new ObjectMapper().writeValueAsString(result);
+            ObjectMapper mapper = new ObjectMapper();
+            String dataString = mapper.writeValueAsString(result);
+            response.getWriter().print(dataString);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String responseData(HttpServletResponse response, ResponseResult result, Boolean ignoreNull) {
+        try
+        {
+            response.setStatus(200);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            ObjectMapper mapper = new ObjectMapper();
+            if (ignoreNull.equals(true)) {
+                mapper.setSerializationInclusion(Include.NON_NULL);
+            }
+            String dataString = mapper.writeValueAsString(result);
             response.getWriter().print(dataString);
         }
         catch (IOException e)

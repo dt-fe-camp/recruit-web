@@ -22,6 +22,6 @@ public class AdminPublishResultItem {
 
   private Integer required;
 
-  private List<DtsItem> children;
+  private List<DtsItem> dataSource;
 }
 

@@ -3,5 +3,6 @@
   "psi-header.variables": [
     ["author", "afcfzf"],
     ["authoremail", "9301462@qq.com"]
-  ]
+  ],
+  "eslint.workingDirectories": ["./static"]
 }

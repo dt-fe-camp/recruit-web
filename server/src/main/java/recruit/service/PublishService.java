@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import recruit.dao.DtsDao;
 import recruit.dao.admin.PublishDao;
-import recruit.model.admin.AdminPublishDtsItem;
+import recruit.model.admin.AdminPublishFields;
 import recruit.model.admin.AdminPublishResultItem;
 import recruit.model.dts.DtsItem;
 import recruit.utils.TreeDtsUtil;
@@ -24,8 +24,6 @@ import recruit.model.dts.DtsRawDataItem;
 
 @Service
 public class PublishService {
-  static String regionKey = "region";
-
   @Autowired
   private PublishDao publishDao;
 
@@ -33,30 +31,25 @@ public class PublishService {
   private DtsDao dtsDao;
 
   public Map<String, AdminPublishResultItem> getPublishDataSource() throws IllegalAccessException, InvocationTargetException {
-    List<AdminPublishDtsItem> adminPublishDts = this.publishDao.findAdminPublishDts();
+    List<AdminPublishFields> adminPublishFields = this.publishDao.findAdminFields();
     HashMap<String, AdminPublishResultItem> adminPublishDtsMap = new HashMap<>(16);
 
-    for (AdminPublishDtsItem item: adminPublishDts) {
+    for (AdminPublishFields item: adminPublishFields) {
       String key = item.getPublishValue();
-      AdminPublishResultItem resultItems = adminPublishDtsMap.get(key);
-      DtsItem childrenItem = new DtsItem(item.getName(), item.getValue());
-      List<DtsItem> children = resultItems == null ? new ArrayList<>() : resultItems.getChildren();
-      children.add(childrenItem);
-      resultItems = new AdminPublishResultItem(item.getPublishName(), item.getPublishValue(), item.getPublishValueType(), item.getRequired(), children);
+      long start1 = System.nanoTime();
+      List<DtsRawDataItem> rawItems = this.dtsDao.findTreeDts(key);
+      long end1 = System.nanoTime();
+      System.out.println("Elapsed Time in nano seconds: " + key + "" + (end1-start1));
+      List<DtsItem> dts = TreeDtsUtil.createDtsByListData(rawItems);
+      AdminPublishResultItem resultItems = new AdminPublishResultItem(
+        item.getPublishName(),
+        item.getPublishValue(),
+        item.getPublishValueType(),
+        item.getRequired(),
+        dts
+      );
       adminPublishDtsMap.put(key, resultItems);
     }
-
-    // 区域选择
-    List<DtsRawDataItem> rawItems = this.dtsDao.findRegionRawDataItems(regionKey);
-    List<DtsItem> regionDts = TreeDtsUtil.createDtsByListData(rawItems);
-    AdminPublishResultItem publishRegionDts = new AdminPublishResultItem(
-      "工作地址",
-      regionKey,
-      "single",
-      1,
-      regionDts
-    );
-    adminPublishDtsMap.put(regionKey, publishRegionDts);
     return adminPublishDtsMap;
   }
 }

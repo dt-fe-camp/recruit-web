@@ -8,24 +8,14 @@ package recruit.model.admin;
 import lombok.Data;
 
 @Data
-public class AdminPublishDtsItem {
-  /**
-   * 选择项名称
-   */
-  private String name;
-
+public class AdminPublishFields {
   /**
    * 选择项名称
    */
   private String publishName;
 
   /**
-   * 选择项值
-   */
-  private String value;
-
-  /**
-   * 筛选值
+   * 选项值
    */
   private String publishValue;
 

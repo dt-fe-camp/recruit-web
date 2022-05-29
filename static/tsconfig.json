@@ -3,7 +3,7 @@
     "target": "ES5",
     "rootDir": ".",
     "typeRoots": ["./node_modules/@types", "./src/static/types"],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "module": "commonjs",
     "strict": true,
@@ -15,12 +15,15 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "paths": {
-      "@admin/*": ["src/admin/*"]
+      "@/*": ["src/*"],
+      "@api": ["src/common/api"],
+      "@api/*": ["src/common/api/*"],
     }
   },
   "include": [
     "src/app",
     "src/admin",
+    "src/common",
     "build/*"
   ],
   "exclude": [
