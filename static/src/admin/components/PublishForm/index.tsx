@@ -88,7 +88,7 @@ export const PublishForm = (): JSX.Element => {
   // };
 
   const onSubmit = (): void => {
-    form.validateFields().then(value => {
+    form.validateFields().then((value) => {
       console.log('formValue: ', value);
     });
   };
@@ -98,7 +98,7 @@ export const PublishForm = (): JSX.Element => {
     get<PublishDtsResp>(ADMIN_API.PUBLISH_DTS_LIST)
       .then((res) => {
         const { code, data } = res;
-        if (code === 0) {
+        if (code !== 0) {
           throw new Error();
         }
 
