@@ -1,17 +1,8 @@
-/**
- * @file SysUser.java
- * @author afcfzf(9301462@qq.com)
- */
-
 package recruit.model;
-import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-public class SysUser implements Serializable {
+import java.util.Date;
+
+public class SysUser {
     private Long id;
 
     private String userName;
@@ -41,11 +32,6 @@ public class SysUser implements Serializable {
     private Date updateTime;
 
     private Integer isDel;
-
-    public SysUser(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;

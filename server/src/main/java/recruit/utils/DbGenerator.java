@@ -22,6 +22,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 public class DbGenerator {
   static String prefix = "ENC(";
   static String suffix = ")";
+  static boolean overwrite = true;
 
   public static void main(String[] args) throws Exception {
     RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
@@ -37,7 +38,6 @@ public class DbGenerator {
     // MBG执行过程中的警告信息
     List<String> warnings = new ArrayList<String>();
     // 生成的代码重复时覆盖原代码
-    boolean overwrite = true;
     // 读取MBG配置文件
     InputStream is = MyBatisGenerator.class.getResourceAsStream("/generatorConfig.xml");
     ConfigurationParser cp = new ConfigurationParser(warnings);

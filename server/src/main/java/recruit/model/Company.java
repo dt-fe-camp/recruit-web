@@ -15,6 +15,8 @@ public class Company {
 
     private String locationDetail;
 
+    private String logo;
+
     private String description;
 
     public Integer getId() {
@@ -71,6 +73,14 @@ public class Company {
 
     public void setLocationDetail(String locationDetail) {
         this.locationDetail = locationDetail == null ? null : locationDetail.trim();
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo == null ? null : logo.trim();
     }
 
     public String getDescription() {

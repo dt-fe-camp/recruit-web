@@ -18,7 +18,7 @@
       <property name="nullCatalogMeansCurrent" value="true" />
     </jdbcConnection>
 
-    <javaModelGenerator targetPackage="recruit.model" targetProject="src/main/java">
+    <javaModelGenerator targetPackage="recruit.model" targetProject="server/src/main/java">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>

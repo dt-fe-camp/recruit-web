@@ -7,11 +7,9 @@ public class Recruit {
 
     private String title;
 
-    private String region;
+    private String regionCode;
 
-    private String locationCode;
-
-    private String locationDetail;
+    private String regionDetail;
 
     private Integer minSalary;
 
@@ -25,8 +23,6 @@ public class Recruit {
 
     private String experience;
 
-    private String industry;
-
     private String shortTip;
 
     private String companyId;
@@ -36,6 +32,8 @@ public class Recruit {
     private Date modifyTime;
 
     private Byte isDel;
+
+    private String description;
 
     public Integer getId() {
         return id;
@@ -53,28 +51,20 @@ public class Recruit {
         this.title = title == null ? null : title.trim();
     }
 
-    public String getRegion() {
-        return region;
+    public String getRegionCode() {
+        return regionCode;
     }
 
-    public void setRegion(String region) {
-        this.region = region == null ? null : region.trim();
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode == null ? null : regionCode.trim();
     }
 
-    public String getLocationCode() {
-        return locationCode;
+    public String getRegionDetail() {
+        return regionDetail;
     }
 
-    public void setLocationCode(String locationCode) {
-        this.locationCode = locationCode == null ? null : locationCode.trim();
-    }
-
-    public String getLocationDetail() {
-        return locationDetail;
-    }
-
-    public void setLocationDetail(String locationDetail) {
-        this.locationDetail = locationDetail == null ? null : locationDetail.trim();
+    public void setRegionDetail(String regionDetail) {
+        this.regionDetail = regionDetail == null ? null : regionDetail.trim();
     }
 
     public Integer getMinSalary() {
@@ -125,14 +115,6 @@ public class Recruit {
         this.experience = experience == null ? null : experience.trim();
     }
 
-    public String getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(String industry) {
-        this.industry = industry == null ? null : industry.trim();
-    }
-
     public String getShortTip() {
         return shortTip;
     }
@@ -171,5 +153,13 @@ public class Recruit {
 
     public void setIsDel(Byte isDel) {
         this.isDel = isDel;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 }
