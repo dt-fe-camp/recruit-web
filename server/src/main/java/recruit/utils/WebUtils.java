@@ -37,6 +37,7 @@ public class WebUtils {
             response.setContentType("application/json");
             response.setCharacterEncoding("utf-8");
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(Include.NON_NULL);
             String dataString = mapper.writeValueAsString(result);
             response.getWriter().print(dataString);
         }

@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch DbGenerator",
+      "request": "launch",
+      "mainClass": "recruit.utils.DbGenerator",
+      "projectName": "recruit-web"
+    },
+    {
+      "type": "java",
       "name": "Launch RecruitTest",
       "request": "launch",
       "mainClass": "recruit.RecruitTest",

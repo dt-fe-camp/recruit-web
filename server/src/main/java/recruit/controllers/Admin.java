@@ -14,17 +14,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import recruit.model.admin.AdminPublishResultItem;
 import recruit.service.PublishService;
 import recruit.utils.ResponseResult;
 import recruit.utils.WebUtils;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 @Api(tags="管理端")
 public class Admin {
   @Autowired
@@ -36,4 +38,9 @@ public class Admin {
     Map<String, AdminPublishResultItem> adminPublishDtsMap = adminPublishService.getPublishDataSource();
     return WebUtils.responseData(response, new ResponseResult<>(adminPublishDtsMap), true);
   }
+
+  // @PostMapping(value="publish")
+  // public String publish(@RequestBody body) {
+
+  // }
 }
