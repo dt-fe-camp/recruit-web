@@ -5,6 +5,7 @@
 
 import merge from 'webpack-merge';
 import 'webpack-dev-server';
+import { SourceMapDevToolPlugin } from 'webpack';
 import base from './webpack.base.conf';
 
 // @ts-ignore
@@ -36,7 +37,7 @@ const DEV_CONF = merge(base, {
 
   mode: 'development',
 
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
 
   plugins: [
     new FriendlyErrorsPlugin({
@@ -46,6 +47,11 @@ const DEV_CONF = merge(base, {
       },
       onErrors(_: unknown, errors: string) {
         console.error(errors);
+      },
+    }),
+    new SourceMapDevToolPlugin({
+      moduleFilenameTemplate(info: any) {
+        return `file://${info.absoluteResourcePath}`;
       },
     }),
   ],

@@ -12,6 +12,10 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export const IS_DEV = process.env.NODE_ENV === 'development';
 
+export const PUBLIC_PATH = '/recruit/';
+
+export const FILE_NAME = '[name]/[name].[chunkhash].js';
+
 export const resolve = (...args: string[]): string => path.resolve(__dirname, ...args);
 
 const babelLoader = {
@@ -19,13 +23,18 @@ const babelLoader = {
   options: {
     cacheDirectory: IS_DEV,
     presets: [
+      ['@babel/preset-env',
+        {
+          modules: 'commonjs',
+          loose: true,
+        },
+      ],
       [
         '@babel/preset-react',
         {
           runtime: 'automatic',
         },
       ],
-      '@babel/preset-typescript',
     ],
     plugins: [
       '@babel/plugin-transform-runtime',
@@ -52,13 +61,13 @@ const entry = {
 };
 
 const CONFIG: Configuration = {
-  context: path.resolve(__dirname, '../'),
+  // context: path.resolve(__dirname, '../'),
 
   entry,
 
   output: {
     filename: '[name]/[name].[chunkhash].js',
-    publicPath: '/recruit',
+    publicPath: PUBLIC_PATH,
     path: resolve('../dist/node-server/static'),
   },
 
@@ -74,10 +83,31 @@ const CONFIG: Configuration = {
   module: {
     rules: [
       {
-        test: /\.[tj]sx?$/,
+        test: /\.jsx?$/,
         use: [
           'cache-loader',
           babelLoader,
+        ],
+        include: [
+          resolve('../src'),
+          resolve('../node_modules'),
+        ],
+      },
+      {
+        test: /\.tsx?$/,
+        use: [
+          babelLoader,
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+              configFile: resolve('../tsconfig.json'),
+              compilerOptions: {
+                module: 'commonjs',
+                target: 'es5',
+              },
+            },
+          },
         ],
         include: [
           resolve('../src'),

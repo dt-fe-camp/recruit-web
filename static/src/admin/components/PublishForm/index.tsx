@@ -10,11 +10,11 @@ import { ADMIN_API, get, SERVER_ERROR_MSG } from '@api';
 import cls from './index.less';
 import { DESC_PLACEHOLDER, PUBLISH_DEFINITION, SHORT_TIP } from './const';
 import { ComponentDtsItem, convertToDts, RespDtsItem } from '@/common/utils';
-import { DefaultOptionType } from 'antd/lib/cascader';
+import { guid } from '@co-hooks/util';
 
 const { Title } = Typography;
 
-type PublishDtsType = 'education' | 'industry' | 'experience' | 'salary' | 'salary_month' | 'welfare' | 'region';
+type PublishDtsType = 'education' | 'experience' | 'salary' | 'salary_month' | 'welfare' | 'region';
 
 type PublishDtsResp = Record<PublishDtsType, {
   dataSource: RespDtsItem[];
@@ -50,8 +50,24 @@ const openPublishDefinition = (): void => {
   });
 };
 
-const filter = (inputValue: string, path: DefaultOptionType[]): boolean => path
-  .some(option => (option.label as string).toLowerCase().includes(inputValue.toLowerCase()));
+// const filter = (inputValue: string, path: DefaultOptionType[]): boolean => path
+//   .some(option => (option.label as string).toLowerCase().includes(inputValue.toLowerCase()));
+
+
+const initialValues = {
+  description: '1. 项目技术栈先进\n2. 有技术进步空间\n3. 待遇优厚',
+  education: '7',
+  experience: '4',
+  // industry: ['9000000000000', '9000100000000', '9000100030000'],
+  max_salary: '11',
+  min_salary: '10',
+  title: `web前端开发-${guid()}`,
+  region_code: ['533', '577', '577'],
+  region_detail: '城区御鑫亮城小区',
+  salary_month: '12',
+  shortTip: '学习能力强',
+  welfare: ['10001', '10002', '10003', '10005', '10006'],
+};
 
 export const PublishForm = (): JSX.Element => {
   const [dtsMap, setDtsMap] = useState<PublishDts>();
@@ -62,30 +78,6 @@ export const PublishForm = (): JSX.Element => {
   const onFinish = (values: any) => {
     console.log(values);
   };
-
-  // const onGenderChange = (value: string) => {
-  //   switch (value) {
-  //     case 'male':
-  //       form.setFieldsValue({ note: 'Hi, man' });
-  //       return;
-  //     case 'female':
-  //       form.setFieldsValue({ note: 'Hi, lady' });
-  //       return;
-  //     case 'other':
-  //       form.setFieldsValue({ note: 'Hi there' });
-  //   }
-  // };
-
-  // const onReset = () => {
-  //   form.resetFields();
-  // };
-
-  // const onFill = () => {
-  //   form.setFieldsValue({
-  //     note: 'Hello world',
-  //     gender: 'male',
-  //   });
-  // };
 
   const onSubmit = (): void => {
     form.validateFields().then((value) => {
@@ -117,7 +109,7 @@ export const PublishForm = (): JSX.Element => {
   }, []);
 
 
-  console.log('=======', dtsMap);
+  console.log('======= ', dtsMap);
 
   if (pageState === PageState.FAIL) {
     return (
@@ -140,8 +132,9 @@ export const PublishForm = (): JSX.Element => {
         form={form}
         name="control-hooks"
         onFinish={onFinish}
+        initialValues={initialValues}
       >
-        <Form.Item name="name" label="职位名称" rules={[{ required: true, message: '请输入职位名称' }]}>
+        <Form.Item name="title" label="职位名称" rules={[{ required: true, message: '请输入职位名称' }]}>
           <Input />
         </Form.Item>
         <Form.Item label="职位描述" required >
@@ -160,39 +153,39 @@ export const PublishForm = (): JSX.Element => {
             <Input.TextArea rows={8} placeholder={SHORT_TIP} />
           </Form.Item>
         </Form.Item>
-        <Form.Item name="industry" label="职位类别" rules={[{ required: true, message: '请选择职位类别'  }]}>
+        {/* <Form.Item name="industry" label="职位类别" rules={[{ required: true, message: '请选择职位类别'  }]}>
           <Cascader
             style={{ display: 'inline-block' }}
             placeholder="请选择职位类别"
             showSearch={{ filter }}
             options={dtsMap?.industry}
           />
-        </Form.Item>
-        <Form.Item label="薪资范围" required>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        </Form.Item> */}
+        <Form.Item label="薪资范围" required style={{ marginBottom: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start' }}>
             <Form.Item
               name="min_salary"
               rules={[{ required: true, message: '请选择最低工资' }]}
-              style={{ width: 180, marginBottom: 0 }}
+              style={{ width: 180 }}
             >
               <Select placeholder="最低" options={dtsMap?.salary} />
             </Form.Item>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ padding: 8, color: '#999' }}>~</span>
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ padding: 4, color: '#999' }}>~</span>
               <Form.Item
                 name="max_salary"
                 rules={[{ required: true, message: '请选择最高工资' }]}
-                style={{ width: 180, marginBottom: 0 }}
+                style={{ width: 180 }}
               >
                 <Select placeholder="最高" options={dtsMap?.salary} />
               </Form.Item>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ padding: 8, color: '#999' }}>x</span>
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+              <span style={{ padding: 4, color: '#999' }}>x</span>
               <Form.Item
                 name="salary_month"
                 rules={[{ required: true, message: '请选择薪资月份' }]}
-                style={{ width: 180, marginBottom: 0 }}
+                style={{ width: 180 }}
               >
                 <Select
                   placeholder="薪资月份"
