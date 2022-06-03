@@ -9,21 +9,26 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import recruit.model.admin.AdminPublishResultItem;
+import recruit.model.admin.AdminPublishBody;
 import recruit.service.PublishService;
 import recruit.utils.ResponseResult;
+import recruit.utils.Result;
 import recruit.utils.WebUtils;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -39,8 +44,11 @@ public class Admin {
     return WebUtils.responseData(response, new ResponseResult<>(adminPublishDtsMap), true);
   }
 
-  // @PostMapping(value="publish")
-  // public String publish(@RequestBody body) {
-
-  // }
+  @ResponseBody
+  @PostMapping(value="publish", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public Result publish(@RequestBody @Valid AdminPublishBody body) {
+    int id = adminPublishService.saveRecruit(body);
+    System.out.println("body: " + body + "id: " + id);
+    return Result.success(id);
+  }
 }

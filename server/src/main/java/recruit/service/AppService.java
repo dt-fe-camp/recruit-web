@@ -7,20 +7,21 @@ package recruit.service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import recruit.dao.DtsDao;
+import recruit.dao.app.RecruitDao;
 import recruit.dao.app.FilterDao;
-import recruit.model.app.AppDataSource;
-import recruit.model.app.AppFilterListItem;
 import recruit.model.app.AppFilterResultItem;
-import recruit.model.app.AppFilterResultItem.AppFilterResultChildrenItem;
+import recruit.model.app.recruitList.RecruitListItemQueryItem;
 import recruit.model.dts.DtsItem;
 import recruit.model.dts.DtsRawDataItem;
 import recruit.utils.TreeDtsUtil;
+import recruit.vo.app.RecruitListItem;
 
 @Service
 public class AppService {
@@ -30,30 +31,29 @@ public class AppService {
   @Autowired
   private DtsDao dtsDao;
 
-  public List<AppFilterResultItem> getAppFilterDts() {
-    List<AppFilterListItem> appFilters = this.filterDao.findAppFilters();
-    LinkedHashMap<String, AppFilterResultItem> filterValueMap = new LinkedHashMap<>();
+  @Autowired
+  private RecruitDao recruitDao;
 
-    for (AppFilterListItem item: appFilters) {
+  public Map<String, AppFilterResultItem> getFiltersDts() throws IllegalAccessException, InvocationTargetException {
+    List<AppFilterResultItem> appFilters = filterDao.findAppFilters();
+    HashMap<String, AppFilterResultItem> filterDtsMap = new HashMap<>(16);
+
+    for (AppFilterResultItem item: appFilters) {
       String key = item.getFilterValue();
-      AppFilterResultItem resultItems = filterValueMap.get(key);
-      List<AppFilterResultItem.AppFilterResultChildrenItem> children;
-      AppFilterResultItem.AppFilterResultChildrenItem childrenItem = new AppFilterResultChildrenItem(item.getName(), item.getValue());
-      children = resultItems == null ? new ArrayList<>() : resultItems.getChildren();
-      children.add(childrenItem);
-      resultItems = new AppFilterResultItem(item.getFilterName(), item.getFilterValue(), item.getFilterValueType(), children);
-      filterValueMap.put(key, resultItems);
+      long start1 = System.nanoTime();
+      List<DtsRawDataItem> rawItems = this.dtsDao.findTreeDts(key);
+      long end1 = System.nanoTime();
+      System.out.println("Elapsed Time in nano seconds: " + key + "" + (end1-start1));
+      List<DtsItem> dts = TreeDtsUtil.createDtsByListData(rawItems, item.getFilterValue().equals("region") ? 2 : null);
+      item.setDataSource(dts);
+      filterDtsMap.put(key, item);
     }
-
-    return new ArrayList<>(filterValueMap.values());
+    return filterDtsMap;
   }
 
-  public List<DtsItem> getRegionDts() throws IllegalAccessException, InvocationTargetException {
-    List<DtsRawDataItem> rawItems = this.dtsDao.findTreeDts("region");
-    return TreeDtsUtil.createDtsByListData(rawItems);
-  }
-
-  public AppDataSource getAppDataSource() throws IllegalAccessException, InvocationTargetException {
-    return new AppDataSource(getAppFilterDts(), getRegionDts());
+  public List<RecruitListItem> getRecruitList() {
+    List<RecruitListItemQueryItem> queryResult = recruitDao.findRecruitListAll();
+    return new ArrayList<>();
+    // String regionCode = queryResult.
   }
 }

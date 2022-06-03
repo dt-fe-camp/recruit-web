@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import recruit.dao.RecruitDao;
-import recruit.model.RecruitWithBLOBs;
+import recruit.model.Recruit;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -20,7 +20,7 @@ public class RecruitTest {
 
   @Test
   public void testFindAll() throws JsonProcessingException {
-    List<RecruitWithBLOBs> list = recruitDao.findAll();
+    List<Recruit> list = recruitDao.findAll();
     String listData = new ObjectMapper().writeValueAsString(list);
     System.out.println("结果： " + listData);
   }

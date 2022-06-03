@@ -22,7 +22,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 public class DbGenerator {
   static String prefix = "ENC(";
   static String suffix = ")";
-  static boolean overwrite = true;
+  static boolean overwrite = false;
 
   public static void main(String[] args) throws Exception {
     RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();

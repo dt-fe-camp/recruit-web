@@ -1,9 +1,6 @@
 package recruit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,9 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import recruit.dao.app.FilterDao;
-import recruit.model.app.AppFilterListItem;
-import recruit.model.app.AppFilterResultItem;
-import recruit.model.app.AppFilterResultItem.AppFilterResultChildrenItem;
 import recruit.model.dts.DtsItemOneLevel;
 
 @SpringBootTest
@@ -77,31 +71,5 @@ public class AppFilterTest {
     System.out.print("publishDate: " + data);
     assertEquals(4, dtsItems.size());
     assertEquals("2", dtsItems.get(0).getValue());
-  }
-
-  /**
-   * 查询所有App筛选器
-   * @throws JsonProcessingException
-   */
-  @Test
-  public void testFindAllAppFilters() throws JsonProcessingException {
-    List<AppFilterListItem> appFilters = this.filterDao.findAppFilters();
-    LinkedHashMap<String, AppFilterResultItem> filterValueMap = new LinkedHashMap<>();
-
-    for (AppFilterListItem item: appFilters) {
-      String key = item.getFilterValue();
-      AppFilterResultItem resultItems = filterValueMap.get(key);
-      List<AppFilterResultItem.AppFilterResultChildrenItem> children;
-      AppFilterResultItem.AppFilterResultChildrenItem childrenItem = new AppFilterResultChildrenItem(item.getName(), item.getValue());
-      children = resultItems == null ? new ArrayList<>() : resultItems.getChildren();
-      children.add(childrenItem);
-      resultItems = new AppFilterResultItem(item.getFilterName(), item.getFilterValue(), item.getFilterValueType(), children);
-      filterValueMap.put(key, resultItems);
-    }
-
-    String data = new ObjectMapper().writeValueAsString(filterValueMap.values().toArray());
-    System.out.print("appFileListItems: " + data);
-    // assertEquals(5, dtsItems.size());
-    // assertEquals("1", dtsItems.get(0).getValue());
   }
 }

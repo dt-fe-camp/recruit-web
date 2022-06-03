@@ -11,7 +11,9 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.type.JdbcType;
-import recruit.model.app.AppFilterListItem;
+
+import recruit.model.AppFilter;
+import recruit.model.app.AppFilterResultItem;
 import recruit.model.dts.DtsItemOneLevel;
 
 public interface FilterDao {
@@ -28,14 +30,12 @@ public interface FilterDao {
    * @param dtsValue
    * @return List<DtsItemOneLevel>
    */
-  @Select(
-    "select d1.name, d1.value, d.name as filter_name, f.value as filter_value, f.value_type as filter_value_type " +
-    "from dts as d, dts_item_level_1 as d1, app_filter as f " +
-    "where d1.parent_value=f.value and d.value=f.value " +
-    "order by f.id, d1.value * 1;"
-  )
-  @ResultType(value=AppFilterListItem.class)
-  List<AppFilterListItem> findAppFilters();
+  @Select({
+    "select dts.name as filterName, aDts.value as filterValue, aDts.value_type as filterValueType from app_filter as aDts ",
+    "left join dts on dts.value=aDts.value"
+  })
+  @ResultType(value = AppFilter.class)
+  List<AppFilterResultItem> findAppFilters();
 
   /**
    * 根据dtsValue查找筛选项

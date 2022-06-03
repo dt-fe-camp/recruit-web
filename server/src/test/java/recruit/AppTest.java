@@ -19,12 +19,4 @@ import recruit.service.AppService;
 public class AppTest {
   @Autowired
   private AppService appSrv;
-
-  @Test
-  public void testGetAppDataSource() throws IllegalAccessException, InvocationTargetException, JsonProcessingException {
-    AppDataSource dts = appSrv.getAppDataSource();
-    String data = new ObjectMapper().writeValueAsString(dts);
-    System.out.print("appDataSource: " + data);
-  }
-
 }

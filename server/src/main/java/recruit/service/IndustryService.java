@@ -22,6 +22,6 @@ public class IndustryService {
 
   public List<DtsItem> getIndustryDts() throws IllegalAccessException, InvocationTargetException {
     List<DtsRawDataItem> rawItems = this.dtsDao.findTreeDts("industry");
-    return TreeDtsUtil.createDtsByListData(rawItems);
+    return TreeDtsUtil.createDtsByListData(rawItems, null);
   }
 }

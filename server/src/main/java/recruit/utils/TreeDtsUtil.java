@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 import recruit.model.dts.DtsItem;
 import recruit.model.dts.DtsItemOneLevel;
@@ -31,7 +32,8 @@ public class TreeDtsUtil {
     }
   }
 
-  public static List<DtsItem> createDtsByListData(List<DtsRawDataItem> rawItems) throws IllegalAccessException, InvocationTargetException {
+  public static List<DtsItem> createDtsByListData(List<DtsRawDataItem> rawItems, Integer maxLevel)
+  throws IllegalAccessException, InvocationTargetException {
     TreeDtsUtil treeDtsUtil = new TreeDtsUtil();
 
     RegionDtsMapItem root = new RegionDtsMapItem();
@@ -43,7 +45,6 @@ public class TreeDtsUtil {
 
         Method getValue = null;
         Method getName = null;
-
         try {
           getValue = item.getClass().getMethod("getL" + i + "Value");
           getName = item.getClass().getMethod("getL" + i + "Name");
@@ -60,6 +61,10 @@ public class TreeDtsUtil {
         String name = (String)getName.invoke(item);
 
         treeDtsUtil.addChildren(value, name, node);
+
+        if (maxLevel != null && i >= maxLevel) {
+          break;
+        }
 
         if (node.getChildrenMap() == null) {
           break;
