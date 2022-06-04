@@ -16,21 +16,21 @@
       "name": "Launch RecruitTest",
       "request": "launch",
       "mainClass": "recruit.RecruitTest",
-      "projectName": "recruit"
+      "projectName": "recruit-web"
     },
     {
       "type": "java",
       "name": "Launch WelfareTest",
       "request": "launch",
       "mainClass": "recruit.WelfareTest",
-      "projectName": "recruit"
+      "projectName": "recruit-web"
     },
     {
       "type": "java",
       "name": "Launch HelloMyBatis",
       "request": "launch",
       "mainClass": "recruit.HelloMyBatis",
-      "projectName": "recruit"
+      "projectName": "recruit-web"
     },
     {
       "type": "java",
@@ -43,7 +43,7 @@
       "name": "Launch RecruitApplication",
       "request": "launch",
       "mainClass": "recruit.RecruitApplication",
-      "projectName": "recruit"
+      "projectName": "recruit-web"
     }
   ]
 }

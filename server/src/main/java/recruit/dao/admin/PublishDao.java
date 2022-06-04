@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 
-import recruit.model.Welfare;
+import recruit.model.Job;
 import recruit.model.admin.AdminPublishBody;
 import recruit.model.admin.AdminPublishResultItem;
 
@@ -56,10 +56,14 @@ public interface PublishDao {
     "#{jobType})"
   })
   @Options(useGeneratedKeys=true, keyProperty="id")
-  void saveRecruit(AdminPublishBody publishBody);
+  void saveJob(Job jobData);
 
-  @Insert("insert into welfare(recruit_id, welfare_value) values (#{recruitId}, #{welfareValue})")
-  void saveWelfare(Welfare welfare);
+  @Insert({
+    "call sp_split(#{welfare}, \",\");",
+    "select GROUP_CONCAT(l1.name SEPARATOR ",") from temp_key_split",
+    "left join dts_item_level_1 as l1 on l1.parent_value= \"welfare\" and l1.value=key_words;",
+  })
+  void getWelfareNames(String welfare);
 }
 
 

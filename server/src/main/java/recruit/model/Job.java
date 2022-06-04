@@ -1,44 +1,52 @@
 package recruit.model;
 import java.util.Date;
-import javax.validation.constraints.NotEmpty;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
-public class Recruit {
+@RequiredArgsConstructor
+@NoArgsConstructor
+public class Job {
     private Integer id;
 
-    @NotEmpty
+    @NonNull
     private String title;
 
-    @NotEmpty
+    @NonNull
     private String regionCode;
 
-    @NotEmpty
+    @NonNull
     private String regionDetail;
 
-    @NotEmpty()
+    @NonNull
     private String minSalary;
 
-    @NotEmpty
+    @NonNull
     private String maxSalary;
 
-    @NotEmpty
+    @NonNull
     private String salaryMonth;
 
-    @NotEmpty
+    @NonNull
     private String education;
 
-    @NotEmpty
+    @NonNull
     private String jobType;
 
-    @NotEmpty
+    @NonNull
     private String experience;
 
-    @NotEmpty
+    @NonNull
     private String description;
 
-    @NotEmpty
+    @NonNull
     private String shortTip;
+
+    @NonNull
+    private String welfare;
 
     private Integer companyId;
 

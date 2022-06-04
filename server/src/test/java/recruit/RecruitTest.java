@@ -8,19 +8,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import recruit.dao.RecruitDao;
-import recruit.model.Recruit;
+import recruit.dao.app.JobDao;
+import recruit.vo.app.JobListItem;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class RecruitTest {
   @Autowired
-  private RecruitDao recruitDao;
+  private JobDao jobDao;
 
   @Test
   public void testFindAll() throws JsonProcessingException {
-    List<Recruit> list = recruitDao.findAll();
+    List<JobListItem> list = jobDao.findJobListAll();
     String listData = new ObjectMapper().writeValueAsString(list);
     System.out.println("结果： " + listData);
   }

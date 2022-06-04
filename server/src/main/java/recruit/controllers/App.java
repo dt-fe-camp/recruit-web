@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import recruit.model.app.AppFilterResultItem;
 import recruit.service.AppService;
 import recruit.utils.Result;
-import recruit.vo.app.RecruitListItem;
+import recruit.vo.app.JobListItem;
 
 @RestController
 @Api(tags="客户端")
@@ -38,7 +38,7 @@ public class App {
   public Result list(HttpServletResponse response) throws JsonProcessingException {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     System.out.println("当前上线文" + principal.toString());
-    List<RecruitListItem> list = appService.getRecruitList();
+    List<JobListItem> list = appService.getJobList();
     return Result.success(list);
   }
 
