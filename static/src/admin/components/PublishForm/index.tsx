@@ -6,15 +6,14 @@
 
 import { Form, Input, Modal, Typography, Cascader, Result, Button, Spin, Select, Layout, Col } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
-import { ADMIN_API, get, SERVER_ERROR_MSG } from '@api';
+import { ADMIN_API, get, post, SERVER_ERROR_MSG } from '@api';
 import cls from './index.less';
 import { DESC_PLACEHOLDER, PUBLISH_DEFINITION, SHORT_TIP } from './const';
 import { ComponentDtsItem, convertToDts, RespDtsItem } from '@/common/utils';
-import { guid } from '@co-hooks/util';
 
 const { Title } = Typography;
 
-type PublishDtsType = 'education' | 'experience' | 'salary' | 'salary_month' | 'welfare' | 'region';
+type PublishDtsType = 'education' | 'experience' | 'salary' | 'salary_month' | 'welfare' | 'region' | 'job_type';
 
 type PublishDtsResp = Record<PublishDtsType, {
   dataSource: RespDtsItem[];
@@ -50,38 +49,60 @@ const openPublishDefinition = (): void => {
   });
 };
 
-// const filter = (inputValue: string, path: DefaultOptionType[]): boolean => path
-//   .some(option => (option.label as string).toLowerCase().includes(inputValue.toLowerCase()));
 
+interface FormValue {
+  description: string;
+  education: string;
+  experience: string;
+  maxSalary: string;
+  minSalary: string;
+  title: string;
+  regionCode: string[];
+  regionDetail: string;
+  salaryMonth: string;
+  shortTip: string;
+  welfare: string[];
+}
 
-const initialValues = {
-  description: '1. 项目技术栈先进\n2. 有技术进步空间\n3. 待遇优厚',
-  education: '7',
-  experience: '4',
-  // industry: ['9000000000000', '9000100000000', '9000100030000'],
-  max_salary: '11',
-  min_salary: '10',
-  title: `web前端开发-${guid()}`,
-  region_code: ['533', '577', '577'],
-  region_detail: '城区御鑫亮城小区',
-  salary_month: '12',
-  shortTip: '学习能力强',
-  welfare: ['10001', '10002', '10003', '10005', '10006'],
-};
+// const initialValues: FormValue = {
+//   description: '1. 项目技术栈先进\n2. 有技术进步空间\n3. 待遇优厚',
+//   education: '7',
+//   experience: '4',
+//   maxSalary: '11',
+//   minSalary: '10',
+//   title: `web前端开发-${guid()}`,
+//   regionCode: ['533', '577', '577'],
+//   regionDetail: '城区御鑫亮城小区',
+//   salaryMonth: '12',
+//   shortTip: '学习能力强',
+//   welfare: ['10001', '10002', '10003', '10005', '10006'],
+// };
 
 export const PublishForm = (): JSX.Element => {
   const [dtsMap, setDtsMap] = useState<PublishDts>();
   const [pageState, setPageState] = useState<PageState>(PageState.LOADING);
 
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<FormValue>();
 
   const onFinish = (values: any) => {
     console.log(values);
   };
 
-  const onSubmit = (): void => {
+  const onSubmit = (): void  => {
     form.validateFields().then((value) => {
       console.log('formValue: ', value);
+      setPageState(PageState.LOADING);
+      post<never>(ADMIN_API.PUBLISH_JOB, value).then((res) => {
+        const { code } = res;
+        if (code === 0) {
+          Modal.success({
+            content: `职位发布成功: ${value.title}`,
+          });
+
+          form.resetFields();
+        }
+      })
+        .finally(() => setPageState(PageState.SUCCESS));
     });
   };
 
@@ -132,7 +153,7 @@ export const PublishForm = (): JSX.Element => {
         form={form}
         name="control-hooks"
         onFinish={onFinish}
-        initialValues={initialValues}
+        // initialValues={initialValues}
       >
         <Form.Item name="title" label="职位名称" rules={[{ required: true, message: '请输入职位名称' }]}>
           <Input />
@@ -153,18 +174,22 @@ export const PublishForm = (): JSX.Element => {
             <Input.TextArea rows={8} placeholder={SHORT_TIP} />
           </Form.Item>
         </Form.Item>
-        {/* <Form.Item name="industry" label="职位类别" rules={[{ required: true, message: '请选择职位类别'  }]}>
-          <Cascader
-            style={{ display: 'inline-block' }}
-            placeholder="请选择职位类别"
-            showSearch={{ filter }}
-            options={dtsMap?.industry}
+        <Form.Item
+          label="职位类型"
+          name="jobType"
+          required
+          rules={[{ required: true, message: '请选择职位类型' }]}
+        >
+          <Select
+            allowClear
+            placeholder="请选择职位类型"
+            options={dtsMap?.job_type}
           />
-        </Form.Item> */}
+        </Form.Item>
         <Form.Item label="薪资范围" required style={{ marginBottom: 0 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start' }}>
             <Form.Item
-              name="min_salary"
+              name="minSalary"
               rules={[{ required: true, message: '请选择最低工资' }]}
               style={{ width: 180 }}
             >
@@ -173,7 +198,7 @@ export const PublishForm = (): JSX.Element => {
             <div style={{ display: 'flex', alignItems: 'flex-start' }}>
               <span style={{ padding: 4, color: '#999' }}>~</span>
               <Form.Item
-                name="max_salary"
+                name="maxSalary"
                 rules={[{ required: true, message: '请选择最高工资' }]}
                 style={{ width: 180 }}
               >
@@ -183,7 +208,7 @@ export const PublishForm = (): JSX.Element => {
             <div style={{ display: 'flex', alignItems: 'flex-start' }}>
               <span style={{ padding: 4, color: '#999' }}>x</span>
               <Form.Item
-                name="salary_month"
+                name="salaryMonth"
                 rules={[{ required: true, message: '请选择薪资月份' }]}
                 style={{ width: 180 }}
               >
@@ -213,14 +238,14 @@ export const PublishForm = (): JSX.Element => {
         </Form.Item>
         <Form.Item label="工作地址" required style={{ marginBottom: 0 }}>
           <Form.Item
-            name="region_code"
+            name="regionCode"
             rules={[{ required: true, message: '请选择所在区域' }]}
             style={{ display: 'inline-block', width: 240, marginRight: 20 }}
           >
             <Cascader placeholder="请选择地区" options={dtsMap?.region} />
           </Form.Item>
           <Form.Item
-            name="region_detail"
+            name="regionDetail"
             rules={[{ required: true, message: '请填写详细地址' }]}
             style={{ display: 'inline-block', width: 240 }}
           >

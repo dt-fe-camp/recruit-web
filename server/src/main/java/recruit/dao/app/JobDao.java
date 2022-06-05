@@ -14,13 +14,22 @@ import recruit.model.dts.DtsRawDataItem;
 
 public interface JobDao {
   /**
-   * 根据dtsValue查找筛名
-   * @param dtsValue
+   * 带分页的列表
+   * @param pageSize 分页大小
+   * @param offset 分页offset
+   * @return List<JobListQueryResultItem>
+   */
+  @Select("call query_job_list(#{pageSize}, #{offset})")
+  @Options(statementType=StatementType.CALLABLE)
+  List<JobListQueryResultItem> findJobList(int pageSize, int offset);
+
+  /**
+   * 职位总数
    * @return List<DtsItemOneLevel>
    */
-  @Select("call query_job_list()")
+  @Select("select count(*) from job;")
   @Options(statementType=StatementType.CALLABLE)
-  List<JobListQueryResultItem> findJobListAll();
+  int findJobListLength();
 
   @Select({
     "select tmp.*, l3.name l3Name, l3.value l3Value from (",

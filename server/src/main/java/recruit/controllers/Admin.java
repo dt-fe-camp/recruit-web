@@ -47,8 +47,7 @@ public class Admin {
   @ResponseBody
   @PostMapping(value="publish", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result publish(@RequestBody @Valid AdminPublishBody body) {
-    int id = adminPublishService.saveRecruit(body);
-    System.out.println("body: " + body + "id: " + id);
-    return Result.success(id);
+    adminPublishService.saveJob(body);
+    return Result.success();
   }
 }

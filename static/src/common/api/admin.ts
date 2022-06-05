@@ -4,5 +4,6 @@
  */
 
 export const ADMIN_API = {
-  PUBLISH_DTS_LIST: '/api/publishFieldsDts',
+  PUBLISH_DTS_LIST: '/api/admin/publishFieldsDts',
+  PUBLISH_JOB: '/api/admin/publish',
 };

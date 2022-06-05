@@ -50,25 +50,26 @@ public class PublishService {
   }
 
   @Transactional
-  public int saveRecruit(AdminPublishBody publishBody) {
+  public void saveJob(AdminPublishBody publishBody) {
     String regionCode = String.join(",", publishBody.getRegionCode());
     String welfare = publishBody.getWelfare() == null ? "" : String.join(",", publishBody.getWelfare());
     Job job = new Job();
     job.setTitle(publishBody.getTitle());
-    job.setRegionCode(regionCode);
-    job.setRegionDetail(publishBody.getRegionDetail());
+    job.setDescription(publishBody.getDescription());
+    job.setShortTip(publishBody.getShortTip());
     job.setMinSalary(publishBody.getMinSalary());
     job.setMaxSalary(publishBody.getMaxSalary());
     job.setSalaryMonth(publishBody.getSalaryMonth());
     job.setEducation(publishBody.getEducation());
+    job.setRegionCode(regionCode);
+    job.setRegionDetail(publishBody.getRegionDetail());
     job.setJobType(publishBody.getJobType());
     job.setExperience(publishBody.getExperience());
-    job.setDescription(publishBody.getDescription());
     job.setWelfare(welfare);
 
     publishDao.saveJob(job);
-    int id = publishBody.getId();
+    // int id = job.getId();
 
-    return id;
+    // return id;
   }
 }

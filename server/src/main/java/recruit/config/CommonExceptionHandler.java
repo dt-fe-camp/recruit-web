@@ -36,4 +36,11 @@ public class CommonExceptionHandler {
   public Result handleConstraintViolationException(ConstraintViolationException ex) {
     return Result.fail(ResultState.PARAMS_VALIDATION_FAIL_CODE, ex.getMessage());
   }
+
+  @ExceptionHandler({ Exception.class })
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public Result handleCommonException(Exception ex) {
+    return Result.fail(ResultState.UNKNOWN_FAIL_CODE, ex.getMessage());
+  }
 }

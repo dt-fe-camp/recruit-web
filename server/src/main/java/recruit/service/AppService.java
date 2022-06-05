@@ -51,8 +51,8 @@ public class AppService {
     return filterDtsMap;
   }
 
-  public List<JobListItem> getJobList() {
-    List<JobListQueryResultItem> queryResult = jobDao.findJobListAll();
+  public List<JobListItem> getJobList(int pageSize, int offset) {
+    List<JobListQueryResultItem> queryResult = jobDao.findJobList(pageSize, offset);
     List<JobListItem> jobList = new ArrayList<>();
     for (JobListQueryResultItem queryItem : queryResult) {
       JobListItem jobListItem = new JobListItem();
@@ -78,5 +78,9 @@ public class AppService {
     }
 
     return jobList;
+  }
+
+  public int getJobListLength() {
+    return jobDao.findJobListLength();
   }
 }

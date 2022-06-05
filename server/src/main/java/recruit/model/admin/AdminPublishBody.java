@@ -3,6 +3,7 @@ package recruit.model.admin;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,7 +43,9 @@ public class AdminPublishBody {
   @NotEmpty
   private String description;
 
+  @NotNull
   private String shortTip;
 
+  @NotNull
   private List<String> welfare;
 }

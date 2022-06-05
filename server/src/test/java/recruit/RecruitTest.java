@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import recruit.dao.app.JobDao;
-import recruit.vo.app.JobListItem;
+import recruit.model.app.job_list.JobListQueryResultItem;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -19,7 +19,7 @@ public class RecruitTest {
 
   @Test
   public void testFindAll() throws JsonProcessingException {
-    List<JobListItem> list = jobDao.findJobListAll();
+    List<JobListQueryResultItem> list = jobDao.findJobList(1, 2);
     String listData = new ObjectMapper().writeValueAsString(list);
     System.out.println("结果： " + listData);
   }
