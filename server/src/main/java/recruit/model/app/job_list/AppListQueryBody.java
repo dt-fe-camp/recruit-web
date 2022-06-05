@@ -16,4 +16,6 @@ public class AppListQueryBody {
 
   @NotNull
   private Integer pageIndex;
+
+  AppListFilter filter;
 }

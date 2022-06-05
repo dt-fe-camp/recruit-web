@@ -51,8 +51,13 @@ public class AppService {
     return filterDtsMap;
   }
 
-  public List<JobListItem> getJobList(int pageSize, int offset) {
-    List<JobListQueryResultItem> queryResult = jobDao.findJobList(pageSize, offset);
+  public List<JobListItem> getJobList(int pageSize, int offset, String title, String regionCode) {
+    List<JobListQueryResultItem> queryResult = jobDao.findJobList(
+      pageSize,
+      offset,
+      title,
+      regionCode
+    );
     List<JobListItem> jobList = new ArrayList<>();
     for (JobListQueryResultItem queryItem : queryResult) {
       JobListItem jobListItem = new JobListItem();

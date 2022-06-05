@@ -15,3 +15,5 @@ server/.idea
 server/lib
 project.properties
 .vscode/launch.json
+server/src/main/resources/static/admin
+server/src/main/resources/static/app

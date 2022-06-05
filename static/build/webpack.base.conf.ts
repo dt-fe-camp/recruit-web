@@ -4,11 +4,8 @@
 
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import { Configuration, DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
-// import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 export const IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -23,10 +20,15 @@ const babelLoader = {
   options: {
     cacheDirectory: IS_DEV,
     presets: [
-      ['@babel/preset-env',
+      [
+        '@babel/preset-env',
         {
-          modules: 'commonjs',
-          loose: true,
+          targets: {
+            edge: '17',
+            firefox: '60',
+            chrome: '67',
+            safari: '11.1',
+          },
         },
       ],
       [
@@ -38,6 +40,7 @@ const babelLoader = {
     ],
     plugins: [
       '@babel/plugin-transform-runtime',
+      'transform-class-properties',
     ],
   },
 };
@@ -58,17 +61,16 @@ const lessLoader = [
 const entry = {
   app: './src/app/index.js',
   admin: './src/admin/index.tsx',
+  test: './src/admin/index.tsx',
 };
 
 const CONFIG: Configuration = {
-  // context: path.resolve(__dirname, '../'),
-
   entry,
 
   output: {
     filename: '[name]/[name].[chunkhash].js',
     publicPath: PUBLIC_PATH,
-    path: resolve('../dist/node-server/static'),
+    path: resolve('../dist/'),
   },
 
   resolve: {
@@ -85,7 +87,6 @@ const CONFIG: Configuration = {
       {
         test: /\.jsx?$/,
         use: [
-          'cache-loader',
           babelLoader,
         ],
         include: [
@@ -103,8 +104,7 @@ const CONFIG: Configuration = {
               transpileOnly: true,
               configFile: resolve('../tsconfig.json'),
               compilerOptions: {
-                module: 'commonjs',
-                target: 'es5',
+                target: 'es6',
               },
             },
           },
@@ -119,7 +119,6 @@ const CONFIG: Configuration = {
         exclude: [
           /\.global\.less$/,
           resolve('../src/app'),
-          resolve('../../node_modules'),
         ],
         use: [
           MiniCssExtractPlugin.loader,
@@ -150,7 +149,6 @@ const CONFIG: Configuration = {
         test: /\.less$/,
         include: [
           resolve('../src/app'),
-          resolve('../../node_modules'),
         ],
         use: lessLoader,
       },
@@ -194,7 +192,6 @@ const CONFIG: Configuration = {
       'process.env.BROWSER': true,
       __DEV__: IS_DEV,
     }),
-    new ForkTsCheckerWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name]/[name].[hash].css',
       chunkFilename: '[name]/[name].[hash].css',
@@ -206,19 +203,6 @@ const CONFIG: Configuration = {
       template: path.join(__dirname, 'template.html'),
       inject: true,
     })),
-    // new WebpackManifestPlugin({}),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {
-    //       from: './node_modules/@ts-live/ts-editor/workers/',
-    //       to: 'static/',
-    //     },
-    //     {
-    //       from: resolve(__dirname, '../../public/'),
-    //       to: 'static/',
-    //     },
-    //   ],
-    // }),
   ],
 };
 

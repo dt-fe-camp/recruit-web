@@ -14,8 +14,12 @@ import FriendlyErrorsPlugin from '@soda/friendly-errors-webpack-plugin';
 const isRdProxy = process.env.NODE_API_PROXY === 'true';
 
 const proxyTable = {
-  '/recruit/api': {
-    target: 'https://jsplayer.cn/',
+  '/recruit/admin/api': {
+    target: 'https://jsplayer.cn',
+    secure: false,
+  },
+  '/recruit/app/api': {
+    target: 'https://jsplayer.cn',
     secure: false,
   },
 };

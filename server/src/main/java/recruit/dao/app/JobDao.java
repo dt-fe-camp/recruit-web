@@ -19,9 +19,9 @@ public interface JobDao {
    * @param offset 分页offset
    * @return List<JobListQueryResultItem>
    */
-  @Select("call query_job_list(#{pageSize}, #{offset})")
+  @Select("call query_job_list(#{pageSize}, #{offset}, #{title}, #{regionCode})")
   @Options(statementType=StatementType.CALLABLE)
-  List<JobListQueryResultItem> findJobList(int pageSize, int offset);
+  List<JobListQueryResultItem> findJobList(int pageSize, int offset, String title, String regionCode);
 
   /**
    * 职位总数

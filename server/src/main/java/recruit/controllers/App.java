@@ -32,17 +32,37 @@ import recruit.vo.app.JobListItem;
 
 @RestController
 @Api(tags = "客户端")
-@RequestMapping(value = "/api/app")
+@RequestMapping(value = "/app")
 public class App {
   @Autowired
   private AppService appService;
 
   @ApiOperation(value = "招聘信息列表")
-  @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/api/list", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result list(@RequestBody @Valid AppListQueryBody queryBody) throws JsonProcessingException {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     System.out.println("当前上线文" + principal.toString());
-    List<JobListItem> list = appService.getJobList(queryBody.getPageSize(), queryBody.getPageIndex());
+
+    String regionCode = "";
+    String title = "";
+
+    if (queryBody.getFilter() != null) {
+
+      if (queryBody.getFilter().getRegionCode() != null) {
+        regionCode = String.join(",", queryBody.getFilter().getRegionCode());
+      }
+
+      if (queryBody.getFilter().getTitle() != null) {
+        title = queryBody.getFilter().getTitle();
+      }
+    }
+
+    List<JobListItem> list = appService.getJobList(
+        queryBody.getPageSize(),
+        queryBody.getPageIndex(),
+        title,
+        regionCode);
+
     int jobListLength = appService.getJobListLength();
     JobListData data = new JobListData(
         jobListLength,
@@ -53,7 +73,7 @@ public class App {
   }
 
   @ApiOperation(value = "筛选项", consumes = MediaType.APPLICATION_JSON_VALUE)
-  @GetMapping(value = "/filterDts")
+  @GetMapping(value = "/api/filterDts")
   @ResponseBody
   public Result getFiltersDts() throws IllegalAccessException, InvocationTargetException {
     Map<String, AppFilterResultItem> filterMap = appService.getFiltersDts();

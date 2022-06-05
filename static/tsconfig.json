@@ -5,9 +5,9 @@
     "typeRoots": ["./node_modules/@types", "./src/static/types"],
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "module": "commonjs",
+    "module": "CommonJS",
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -20,12 +20,7 @@
       "@api/*": ["src/common/api/*"],
     }
   },
-  "include": [
-    "src/app",
-    "src/admin",
-    "src/common",
-    "build/*"
-  ],
+  "include": ["src", "build/*"],
   "exclude": [
     "src/preScript.js"
   ]

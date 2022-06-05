@@ -19,7 +19,7 @@ public class RecruitTest {
 
   @Test
   public void testFindAll() throws JsonProcessingException {
-    List<JobListQueryResultItem> list = jobDao.findJobList(1, 2);
+    List<JobListQueryResultItem> list = jobDao.findJobList(1, 2, "web", "320");
     String listData = new ObjectMapper().writeValueAsString(list);
     System.out.println("结果： " + listData);
   }
