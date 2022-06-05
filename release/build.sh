@@ -11,6 +11,7 @@ printf "%s" $SERVER_BUILDER;
 
 # static
 cd "${ROOT_DIR}/static";
+yarn install;
 yarn build;
 
 # server
