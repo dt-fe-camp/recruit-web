@@ -55,7 +55,7 @@ public class Admin {
 
   @RequestMapping(value={"/**/{path:[^\\.]+}", "/", ""})
   public ModelAndView getApp(ModelMap map) {
-    ModelAndView mav = new ModelAndView("/admin/index.html");
+    ModelAndView mav = new ModelAndView("admin/index.html");
     mav.addObject("myName", "aaaa");
     return mav;
   }

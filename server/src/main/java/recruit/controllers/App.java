@@ -86,7 +86,7 @@ public class App {
 
   @RequestMapping(value={"/**/{path:[^\\.]+}", "/", ""})
   public ModelAndView getApp(HttpServletRequest req, ModelMap map) throws Exception {
-    ModelAndView mav = new ModelAndView("/app/index.html");
+    ModelAndView mav = new ModelAndView("app/index.html");
     Map<String, AppFilterResultItem> filterMap = appService.getFiltersDts();
     Map<String, Object> hashMap = new HashMap<>();
     hashMap.put("filter", filterMap);

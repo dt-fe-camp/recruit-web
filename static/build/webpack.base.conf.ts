@@ -67,7 +67,6 @@ const lessLoader = [
 const entry = {
   app: './src/app/index.js',
   admin: './src/admin/index.tsx',
-  test: './src/admin/index.tsx',
 };
 
 const CONFIG: Configuration = {
