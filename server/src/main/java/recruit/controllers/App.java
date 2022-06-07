@@ -71,8 +71,8 @@ public class App {
     int jobListLength = appService.getJobListLength();
     JobListData data = new JobListData(
         jobListLength,
-        queryBody.getPageSize(),
         queryBody.getPageIndex(),
+        queryBody.getPageSize(),
         list);
     return Result.success(data);
   }
