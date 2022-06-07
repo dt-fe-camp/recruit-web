@@ -6,21 +6,24 @@
 package recruit.controllers;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import recruit.model.app.AppFilterResultItem;
@@ -34,6 +37,8 @@ import recruit.vo.app.JobListItem;
 @Api(tags = "客户端")
 @RequestMapping(value = "/app")
 public class App {
+  static Pattern reStatic = Pattern.compile("^/app/.*?\\.\\w+");
+
   @Autowired
   private AppService appService;
 
@@ -74,9 +79,19 @@ public class App {
 
   @ApiOperation(value = "筛选项", consumes = MediaType.APPLICATION_JSON_VALUE)
   @GetMapping(value = "/api/filterDts")
-  @ResponseBody
   public Result getFiltersDts() throws IllegalAccessException, InvocationTargetException {
     Map<String, AppFilterResultItem> filterMap = appService.getFiltersDts();
     return Result.success(filterMap);
+  }
+
+  @RequestMapping(value={"/**/{path:[^\\.]+}", "/", ""})
+  public ModelAndView getApp(HttpServletRequest req, ModelMap map) throws Exception {
+    ModelAndView mav = new ModelAndView("/app/index.html");
+    Map<String, AppFilterResultItem> filterMap = appService.getFiltersDts();
+    Map<String, Object> hashMap = new HashMap<>();
+    hashMap.put("filter", filterMap);
+    ObjectMapper mapper = new ObjectMapper();
+    mav.addObject("globalData", mapper.writeValueAsString(hashMap));
+    return mav;
   }
 }

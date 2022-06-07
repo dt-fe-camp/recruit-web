@@ -13,12 +13,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.annotations.Api;
 import recruit.model.admin.AdminPublishResultItem;
@@ -30,7 +32,7 @@ import recruit.utils.WebUtils;
 
 import javax.validation.Valid;
 
-@RestController
+@Controller
 @RequestMapping("/admin")
 @Api(tags="管理端")
 public class Admin {
@@ -49,5 +51,12 @@ public class Admin {
   public Result publish(@RequestBody @Valid AdminPublishBody body) {
     adminPublishService.saveJob(body);
     return Result.success();
+  }
+
+  @RequestMapping(value={"/**/{path:[^\\.]+}", "/", ""})
+  public ModelAndView getApp(ModelMap map) {
+    ModelAndView mav = new ModelAndView("/admin/index.html");
+    mav.addObject("myName", "aaaa");
+    return mav;
   }
 }

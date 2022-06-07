@@ -6,6 +6,7 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { Configuration, DefinePlugin } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import mockData from './mockData.json';
 
 export const IS_DEV = process.env.NODE_ENV === 'development';
 
@@ -14,6 +15,11 @@ export const PUBLIC_PATH = '/recruit/';
 export const FILE_NAME = '[name]/[name].[chunkhash].js';
 
 export const resolve = (...args: string[]): string => path.resolve(__dirname, ...args);
+
+const titleMap: Record<string, string> = {
+  app: `客户端${IS_DEV ? '-dev' : ''}`,
+  admin: `管理端${IS_DEV ? '-dev' : ''}`,
+};
 
 const babelLoader = {
   loader: 'babel-loader',
@@ -79,7 +85,6 @@ const CONFIG: Configuration = {
       '@': resolve('../src/'),
       '@api': resolve('../src/common/api'),
     },
-    fallback: { url: false },
   },
 
   module: {
@@ -197,7 +202,8 @@ const CONFIG: Configuration = {
       chunkFilename: '[name]/[name].[hash].css',
     }),
     ...Object.keys(entry).map(item => new HtmlWebpackPlugin({
-      title: item,
+      title: titleMap[item] || '',
+      mockData: IS_DEV ? JSON.stringify(mockData) : '{}',
       filename: `${item}/index.html`,
       chunks: [item],
       template: path.join(__dirname, 'template.html'),

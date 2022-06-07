@@ -27,6 +27,13 @@
     },
     {
       "type": "java",
+      "name": "Launch PathMatcher",
+      "request": "launch",
+      "mainClass": "recruit.PathMatcher",
+      "projectName": "recruit-web"
+    },
+    {
+      "type": "java",
       "name": "Launch HelloMyBatis",
       "request": "launch",
       "mainClass": "recruit.HelloMyBatis",

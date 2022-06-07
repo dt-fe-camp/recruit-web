@@ -17,10 +17,12 @@ const proxyTable = {
   '/recruit/admin/api': {
     target: 'https://jsplayer.cn',
     secure: false,
+    changeOrigin: true,
   },
   '/recruit/app/api': {
     target: 'https://jsplayer.cn',
     secure: false,
+    changeOrigin: true,
   },
 };
 
@@ -31,10 +33,16 @@ const DEV_CONF = merge(base, {
     port: 8787,
     allowedHosts: 'all',
     historyApiFallback: {
-      rewrites: [{
-        from: /\//,
-        to: '/',
-      }],
+      rewrites: [
+        {
+          from: /^\/recruit\/app\//,
+          to: '/recruit/app',
+        },
+        {
+          from: /^\/recruit\/admin\//,
+          to: '/recruit/admin',
+        },
+      ],
     },
     proxy: isRdProxy ? proxyTable : undefined,
   },
