@@ -39,7 +39,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 
-  static String loginUrl = "/user/login";
+  static String LOGIN_URL = "/user/login";
+
+  static String APP_URL = "/app/**";
 
   @Autowired
   private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
@@ -69,20 +71,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // .logoutSuccessUrl("/hello")
         // .permitAll()
         .authorizeRequests()
-        .antMatchers(loginUrl).permitAll()
-        // .anyRequest().authenticated()
+        .antMatchers(LOGIN_URL).permitAll()
+        .anyRequest().authenticated()
 
         .and()
         // .addFilterAt(useMyUsrPwdAuthFilter(), UsernamePasswordAuthenticationFilter.class)
         .formLogin()
-        .loginProcessingUrl(loginUrl)
+        .loginProcessingUrl(LOGIN_URL)
         .permitAll()
 
-        // .and()
-        // .rememberMe()
-        // .key("RECRUIT_WEB")
-        // .rememberMeParameter("rememberMe")
-        // .userDetailsService(userDetailsService)
+        .and()
+        .rememberMe()
+        .key("RECRUIT_WEB")
+        .rememberMeParameter("rememberMe")
+        .rememberMeCookieName("RECRUIT_TOKEN")
+        .userDetailsService(userDetailsService)
 
         .and()
         .csrf()
@@ -93,18 +96,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .accessDeniedHandler(accessDeniedHandler);
   }
 
-  @Bean
-  MyUsrPwdAuthFilter useMyUsrPwdAuthFilter() throws Exception {
-    MyUsrPwdAuthFilter filter = new MyUsrPwdAuthFilter();
-    filter.setAuthenticationManager(authenticationManager());
-    filter.setAuthenticationSuccessHandler(new MyAuthSuccessHandler());
-    filter.setAuthenticationFailureHandler(new MyAuthFailureHandler());
-    filter.setFilterProcessesUrl(loginUrl);
-    TokenBasedRememberMeServices tokenBaseRememberMe = new TokenBasedRememberMeServices("RECRUIT_WEB", userDetailsService);
-    tokenBaseRememberMe.setCookieName("AUTH_TOKEN");
-    filter.setRememberMeServices(tokenBaseRememberMe);
-    return filter;
-  }
+  // @Bean
+  // MyUsrPwdAuthFilter useMyUsrPwdAuthFilter() throws Exception {
+  //   MyUsrPwdAuthFilter filter = new MyUsrPwdAuthFilter();
+  //   filter.setAuthenticationManager(authenticationManager());
+  //   filter.setAuthenticationSuccessHandler(new MyAuthSuccessHandler());
+  //   filter.setAuthenticationFailureHandler(new MyAuthFailureHandler());
+  //   filter.setFilterProcessesUrl(LOGIN_URL);
+  //   TokenBasedRememberMeServices tokenBaseRememberMe = new TokenBasedRememberMeServices("RECRUIT_WEB", userDetailsService);
+  //   tokenBaseRememberMe.setCookieName("AUTH_TOKEN");
+  //   filter.setRememberMeServices(tokenBaseRememberMe);
+  //   return filter;
+  // }
 
   // @Bean
   // public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
