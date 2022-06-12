@@ -17,7 +17,6 @@ const PROD_CONF: webpack.Configuration = merge(base, {
 
   optimization: {
     minimize: true,
-    noEmitOnErrors: true,
   },
 });
 

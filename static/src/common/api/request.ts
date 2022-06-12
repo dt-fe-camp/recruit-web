@@ -54,6 +54,7 @@ request.interceptors.response.use((resp) => {
 
   const errMsg = err.message || err;
   message.error(`${SERVER_ERROR_MSG}: ${errMsg}`);
+  throw err;
 });
 
 interface ResponseStruct<D> {

@@ -15,6 +15,4 @@ server/.idea
 server/lib
 project.properties
 .vscode/launch.json
-server/src/main/resources/static/admin
-server/src/main/resources/static/app
-server/src/main/resources/static/test
+server/src/main/resources/fe-static

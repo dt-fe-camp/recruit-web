@@ -33,13 +33,12 @@ import recruit.utils.WebUtils;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/admin")
 @Api(tags="管理端")
 public class Admin {
   @Autowired
   PublishService adminPublishService;
 
-  @GetMapping(value="/api/publishFieldsDts")
+  @GetMapping(value="/api/admin/publishFieldsDts")
   public String getPublishFieldsDts(HttpServletResponse response)
     throws InvocationTargetException, JsonProcessingException, IllegalAccessException {
     Map<String, AdminPublishResultItem> adminPublishDtsMap = adminPublishService.getPublishDataSource();
@@ -47,13 +46,13 @@ public class Admin {
   }
 
   @ResponseBody
-  @PostMapping(value="/api/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value="/api/admin/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result publish(@RequestBody @Valid AdminPublishBody body) {
     adminPublishService.saveJob(body);
     return Result.success();
   }
 
-  @RequestMapping(value={"/**/{path:[^\\.]+}", "/", ""})
+  @RequestMapping(value={"/admin/**/{path:[^\\.]+}", "/admin", "admin"})
   public ModelAndView getApp(ModelMap map) {
     ModelAndView mav = new ModelAndView("admin/index.html");
     mav.addObject("myName", "aaaa");
