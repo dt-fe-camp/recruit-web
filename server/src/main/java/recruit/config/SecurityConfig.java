@@ -69,7 +69,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // .logoutSuccessUrl("/hello")
         // .permitAll()
         .authorizeRequests()
-        .antMatchers("/app/**", "/auth/**", "/static/**", "/api/auth/**").permitAll()
+        .antMatchers(
+          "/app/**",
+          "/api/app",
+          "/auth/**",
+          "/api/auth/**",
+          "/static/**"
+        ).permitAll()
         .anyRequest().authenticated()
 
         .and()
