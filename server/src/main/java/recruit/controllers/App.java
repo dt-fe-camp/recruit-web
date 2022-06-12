@@ -35,7 +35,6 @@ import recruit.vo.app.JobListItem;
 
 @RestController
 @Api(tags = "客户端")
-@RequestMapping(value = "/app")
 public class App {
   static Pattern reStatic = Pattern.compile("^/app/.*?\\.\\w+");
 
@@ -43,7 +42,7 @@ public class App {
   private AppService appService;
 
   @ApiOperation(value = "招聘信息列表")
-  @PostMapping(value = "/api/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/api/app/list", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result list(@RequestBody @Valid AppListQueryBody queryBody) throws JsonProcessingException {
     Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     System.out.println("当前上线文" + principal.toString());
@@ -78,13 +77,13 @@ public class App {
   }
 
   @ApiOperation(value = "筛选项", consumes = MediaType.APPLICATION_JSON_VALUE)
-  @GetMapping(value = "/api/filterDts")
+  @GetMapping(value = "/api/app/filterDts")
   public Result getFiltersDts() throws IllegalAccessException, InvocationTargetException {
     Map<String, AppFilterResultItem> filterMap = appService.getFiltersDts();
     return Result.success(filterMap);
   }
 
-  @RequestMapping(value={"/**/{path:[^\\.]+}", "/", ""})
+  @RequestMapping(value={"/app/**/{path:[^\\.]+}", "/app", "app"})
   public ModelAndView getApp(HttpServletRequest req, ModelMap map) throws Exception {
     ModelAndView mav = new ModelAndView("app/index.html");
     Map<String, AppFilterResultItem> filterMap = appService.getFiltersDts();

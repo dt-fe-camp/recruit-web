@@ -10,6 +10,7 @@ import { ADMIN_API, get, post, SERVER_ERROR_MSG } from '@api';
 import cls from './index.less';
 import { DESC_PLACEHOLDER, PUBLISH_DEFINITION, SHORT_TIP } from './const';
 import { ComponentDtsItem, convertToDts, RespDtsItem } from '@/common/utils';
+import { useRefCallback } from '@rc-hooks/use';
 
 const { Title } = Typography;
 
@@ -88,7 +89,7 @@ export const PublishForm = (): JSX.Element => {
     console.log(values);
   };
 
-  const onSubmit = (): void  => {
+  const onSubmit = useRefCallback((): void  => {
     form.validateFields().then((value) => {
       console.log('formValue: ', value);
       setPageState(PageState.LOADING);
@@ -104,7 +105,7 @@ export const PublishForm = (): JSX.Element => {
       })
         .finally(() => setPageState(PageState.SUCCESS));
     });
-  };
+  });
 
   const requestData = useCallback(() => {
     setPageState(PageState.LOADING);

@@ -19,6 +19,7 @@ export const resolve = (...args: string[]): string => path.resolve(__dirname, ..
 const titleMap: Record<string, string> = {
   app: `客户端${IS_DEV ? '-dev' : ''}`,
   admin: `管理端${IS_DEV ? '-dev' : ''}`,
+  auth: `鉴权${IS_DEV ? '-dev' : ''}`,
 };
 
 const babelLoader = {
@@ -67,6 +68,7 @@ const lessLoader = [
 const entry = {
   app: './src/app/index.js',
   admin: './src/admin/index.tsx',
+  auth: './src/auth/index.tsx',
 };
 
 const CONFIG: Configuration = {
@@ -197,8 +199,8 @@ const CONFIG: Configuration = {
       __DEV__: IS_DEV,
     }),
     new MiniCssExtractPlugin({
-      filename: '[name]/[name].[hash].css',
-      chunkFilename: '[name]/[name].[hash].css',
+      filename: '[name]/[name].[fullhash].css',
+      chunkFilename: '[name]/[name].[fullhash].css',
     }),
     ...Object.keys(entry).map(item => new HtmlWebpackPlugin({
       title: titleMap[item] || '',
