@@ -12,19 +12,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 // @ts-ignore
 import FriendlyErrorsPlugin from '@soda/friendly-errors-webpack-plugin';
 
-const isRdProxy = process.env.NODE_API_PROXY === 'true';
-
-const proxyTable = [
-  '/recruit/api/admin',
-  '/recruit/api/app',
-  '/recruit/api/auth',
-].map(uri => ({
-  [uri]: {
-    target: 'https://jsplayer.cn',
-    secure: false,
-    changeOrigin: true,
-  },
-}));
+const useProxy = process.env.NODE_API_PROXY === 'true';
 
 const DEV_CONF = merge(base, {
   devServer: {
@@ -35,6 +23,8 @@ const DEV_CONF = merge(base, {
     host: '0.0.0.0',
     port: 8787,
     allowedHosts: 'all',
+    liveReload: false,
+    hot: false,
     historyApiFallback: {
       rewrites: [
         {
@@ -51,7 +41,15 @@ const DEV_CONF = merge(base, {
         },
       ],
     },
-    proxy: isRdProxy ? proxyTable : undefined,
+    proxy:
+    useProxy ? {
+      '/recruit/api': {
+        target: 'https://jsplayer.cn',
+        secure: false,
+        changeOrigin: true,
+        logLevel: 'debug',
+      },
+    } : undefined,
   },
 
   mode: 'development',
@@ -86,7 +84,7 @@ const DEV_CONF = merge(base, {
   watchOptions: {
     aggregateTimeout: 200,
     poll: 1000,
-    ignored: [resolve('../dist/**/*')],
+    ignored: [resolve('../dist'), resolve(__dirname, '../../server/src/main/resources/fe-static')],
   },
 });
 
