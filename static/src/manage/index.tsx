@@ -10,7 +10,7 @@ import { Publish } from './pages/publish/index';
 import { BrowserRouter, Switch,  Route } from 'react-router-dom';
 
 const Main = (): JSX.Element => (
-  <BrowserRouter basename="/recruit/admin">
+  <BrowserRouter basename="/recruit/manage">
     <Switch>
       <Route component={Publish}/>
     </Switch>

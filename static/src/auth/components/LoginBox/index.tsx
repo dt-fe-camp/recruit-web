@@ -38,7 +38,7 @@ export const LoginBox = (): JSX.Element => {
             return;
           }
 
-          window.location.href = '/recruit/admin';
+          window.location.href = '/recruit/manage';
         }
       });
     });

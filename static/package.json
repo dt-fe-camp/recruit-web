@@ -18,9 +18,8 @@
     "prebuild": "node ./preScript.js",
     "dev": "cross-env NODE_ENV=development webpack server --config ./build/webpack.dev.conf.ts",
     "dev:proxy": "cross-env NODE_ENV=development NODE_API_PROXY=true webpack server --config ./build/webpack.dev.conf.ts",
-    "build": "rm -fr dist && cross-env NODE_ENV=production webpack --config ./build/webpack.prod.conf.ts && npm run build:copy",
-    "build:clean": "rm -fr ../server/src/main/resources/fe-static",
-    "build:copy": "npm run build:clean && cp -r ./dist/ ../server/src/main/resources/fe-static/"
+    "build": "yarn build:clean && cross-env NODE_ENV=production webpack --config ./build/webpack.prod.conf.ts",
+    "build:clean": "rm -fr ../server/src/main/resources/fe-static"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",

@@ -18,7 +18,7 @@ export const resolve = (...args: string[]): string => path.resolve(__dirname, ..
 
 const titleMap: Record<string, string> = {
   app: `客户端${IS_DEV ? '-dev' : ''}`,
-  admin: `管理端${IS_DEV ? '-dev' : ''}`,
+  manage: `管理端${IS_DEV ? '-dev' : ''}`,
   auth: `鉴权${IS_DEV ? '-dev' : ''}`,
 };
 
@@ -67,7 +67,7 @@ const lessLoader = [
 
 const entry = {
   app: './src/app/index.js',
-  admin: './src/admin/index.tsx',
+  manage: './src/manage/index.tsx',
   auth: './src/auth/index.tsx',
 };
 
@@ -77,7 +77,7 @@ const CONFIG: Configuration = {
   output: {
     filename: '[name]/[name].[chunkhash].js',
     publicPath: PUBLIC_PATH,
-    path: resolve('../dist/'),
+    path: resolve('../../server/src/main/resources/fe-static/'),
   },
 
   resolve: {

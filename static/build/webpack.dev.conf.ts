@@ -38,8 +38,8 @@ const DEV_CONF = merge(base, {
           to: '/recruit/app',
         },
         {
-          from: /^\/recruit\/admin\//,
-          to: '/recruit/admin',
+          from: /^\/recruit\/manage\//,
+          to: '/recruit/manage',
         },
         {
           from: /^\/recruit\/auth\//,
@@ -48,10 +48,6 @@ const DEV_CONF = merge(base, {
       ],
     },
     proxy: useProxy ? proxyTable : undefined,
-  },
-
-  output: {
-    path: resolve('../../server/src/main/resources/fe-static/'),
   },
 
   mode: 'development',
