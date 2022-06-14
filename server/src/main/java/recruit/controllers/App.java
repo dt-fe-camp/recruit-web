@@ -16,7 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,9 +43,6 @@ public class App {
   @ApiOperation(value = "招聘信息列表")
   @PostMapping(value = "/api/app/list", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result list(@RequestBody @Valid AppListQueryBody queryBody) throws JsonProcessingException {
-    Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    System.out.println("当前上线文" + principal.toString());
-
     String regionCode = "";
     String title = "";
 

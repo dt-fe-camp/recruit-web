@@ -17,20 +17,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import io.swagger.annotations.Api;
 import recruit.model.SysUser;
-import recruit.service.LoginService;
 import recruit.utils.ResponseResult;
 
 @Api(tags="客户端")
 @RestController
 public class Auth {
-  @Autowired
-  private LoginService loginService;
 
   @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseResult login(@RequestBody SysUser user) {
     System.out.println("======" + user);
     // 登录
-    return loginService.login(user);
+    // return loginService.login(user);
+    return new ResponseResult(null);
   }
 
   @RequestMapping(value={"/auth/**/{path:[^\\.]+}", "/auth", "auth"})

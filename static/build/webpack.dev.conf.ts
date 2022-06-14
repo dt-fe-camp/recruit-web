@@ -4,15 +4,23 @@
  */
 
 import merge from 'webpack-merge';
-import 'webpack-dev-server';
+import { ProxyConfigMap } from 'webpack-dev-server';
 import { SourceMapDevToolPlugin } from 'webpack';
 import base, { resolve } from './webpack.base.conf';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 // @ts-ignore
 import FriendlyErrorsPlugin from '@soda/friendly-errors-webpack-plugin';
 
 const useProxy = process.env.NODE_API_PROXY === 'true';
+
+const proxyTable: ProxyConfigMap = {
+  '/recruit/api': {
+    target: 'https://jsplayer.cn',
+    secure: false,
+    changeOrigin: true,
+    logLevel: 'debug',
+  },
+};
 
 const DEV_CONF = merge(base, {
   devServer: {
@@ -23,8 +31,6 @@ const DEV_CONF = merge(base, {
     host: '0.0.0.0',
     port: 8787,
     allowedHosts: 'all',
-    liveReload: false,
-    hot: false,
     historyApiFallback: {
       rewrites: [
         {
@@ -41,15 +47,11 @@ const DEV_CONF = merge(base, {
         },
       ],
     },
-    proxy:
-    useProxy ? {
-      '/recruit/api': {
-        target: 'https://jsplayer.cn',
-        secure: false,
-        changeOrigin: true,
-        logLevel: 'debug',
-      },
-    } : undefined,
+    proxy: useProxy ? proxyTable : undefined,
+  },
+
+  output: {
+    path: resolve('../../server/src/main/resources/fe-static/'),
   },
 
   mode: 'development',
@@ -71,20 +73,15 @@ const DEV_CONF = merge(base, {
         return `file://${info.absoluteResourcePath}`;
       },
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: resolve(__dirname, '../dist/'),
-          to: resolve(__dirname, '../../server/src/main/resources/fe-static/'),
-        },
-      ],
-    }),
   ],
 
   watchOptions: {
     aggregateTimeout: 200,
     poll: 1000,
-    ignored: [resolve('../dist'), resolve(__dirname, '../../server/src/main/resources/fe-static')],
+    ignored: [
+      resolve('../dist/'),
+      resolve('../../server/src/main/resources/fe-static/'),
+    ],
   },
 });
 

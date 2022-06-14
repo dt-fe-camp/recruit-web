@@ -7,6 +7,7 @@ node_modules
 # client
 yarn.lock
 static/dist
+static/.hot
 
 # server
 server/target
