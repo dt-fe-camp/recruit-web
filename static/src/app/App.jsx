@@ -5,7 +5,7 @@ import CitySelecter from './components/citySelecter/citySelecter.js';
 import { EmptyPage } from './components/emptyPage/emptyPage';
 import DetailsPage from './components/detalisPage/detailsPage.js';
 import { SelecterPage } from './components/selecterPage/selecterPage.js';
-import { BrowserRouter, Switch,  Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 
 import { PureComponent } from 'react';
@@ -32,11 +32,11 @@ export class App extends PureComponent {
       <div className="App">
         <BrowserRouter basename="/recruit/app">
           <Switch>
-            <Route exact path='/citySelecter' component={CitySelecter} />
-            <Route exact path='/:city' component={FindCmps} />
-            <Route exact path='/a/emptyPage' component={EmptyPage} />
-            <Route exact path='/a/a/detailsPage' component={DetailsPage} />
-            <Route exact path='/b/b/selecterPage' component={SelecterPage} />
+            <Route exact path="/citySelecter" component={CitySelecter}/>
+            <Route exact path="/:city" component={FindCmps}/>
+            <Route exact path="/a/emptyPage" component={EmptyPage}/>
+            <Route exact path="/a/a/detailsPage" component={DetailsPage}/>
+            <Route exact path="/b/b/selecterPage" component={SelecterPage}/>
             <Route component={FindCmps}/>
           </Switch>
         </BrowserRouter>

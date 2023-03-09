@@ -38,7 +38,7 @@ export const LoginBox = (): JSX.Element => {
             return;
           }
 
-          window.location.href = '/recruit/admin';
+          window.location.href = '/recruit/manage';
         }
       });
     });
@@ -92,7 +92,7 @@ export const LoginBox = (): JSX.Element => {
       >
         <Checkbox>
           <div style={{ fontSize: 12 }}>
-            同意<a href="#">《用户服务协议》</a>和<a href="#">《隐私正则》</a>
+            同意6<a href="#">《用户服务协议》</a>和<a href="#">《隐私正则》</a>
           </div>
         </Checkbox>
       </Form.Item>

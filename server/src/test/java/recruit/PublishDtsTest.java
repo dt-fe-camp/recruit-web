@@ -18,23 +18,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import recruit.dao.DtsDao;
 import recruit.model.admin.AdminPublishResultItem;
-import recruit.model.dts.DtsItem;
-import recruit.model.dts.DtsRawDataItem;
 import recruit.service.PublishService;
-import recruit.utils.TreeDtsUtil;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class PublishDtsTest {
   @Autowired
   PublishService adminPublishService;
-
-  @Autowired
-  private DtsDao dtsDao;
-
    /**
    * 查询所有发布选项
    * @throws JsonProcessingException

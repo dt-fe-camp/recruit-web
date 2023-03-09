@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.jsonwebtoken.Claims;
@@ -29,15 +28,6 @@ public class UserTest {
   public void testFindUserById() {
     SysUser user = userDao.findUserByUserName("markjia");
     assertEquals("markjia", user.getUserName());
-  }
-
-  @Test
-  public void testPassword() {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    String pwd = encoder.encode("admin");
-    // $2a$10$YiAg8trwRoVWKWO37xwbl.voEfNsTeOaibAnTk8zQfFLyEWVBU9xi
-    System.out.println("===== pwd: " + pwd);
-    assertEquals(true, encoder.matches("admin", "$2a$10$YiAg8trwRoVWKWO37xwbl.voEfNsTeOaibAnTk8zQfFLyEWVBU9xi"));
   }
 
   @Test

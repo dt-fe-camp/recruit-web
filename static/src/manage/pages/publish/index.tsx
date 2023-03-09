@@ -4,7 +4,7 @@
  */
 
 import cls from './index.less';
-import { PublishForm } from '@/admin/components/PublishForm';
+import { PublishForm } from '@/manage/components/PublishForm';
 
 export const Publish = (): JSX.Element => (
     <div className={cls.publish}>

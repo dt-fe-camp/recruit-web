@@ -4,27 +4,23 @@
  */
 
 import merge from 'webpack-merge';
-import 'webpack-dev-server';
+import { ProxyConfigMap } from 'webpack-dev-server';
 import { SourceMapDevToolPlugin } from 'webpack';
 import base, { resolve } from './webpack.base.conf';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 // @ts-ignore
 import FriendlyErrorsPlugin from '@soda/friendly-errors-webpack-plugin';
 
-const isRdProxy = process.env.NODE_API_PROXY === 'true';
+const useProxy = process.env.NODE_API_PROXY === 'true';
 
-const proxyTable = [
-  '/recruit/api/admin',
-  '/recruit/api/app',
-  '/recruit/api/auth',
-].map(uri => ({
-  [uri]: {
+const proxyTable: ProxyConfigMap = {
+  '/recruit/api': {
     target: 'https://jsplayer.cn',
     secure: false,
     changeOrigin: true,
+    logLevel: 'debug',
   },
-}));
+};
 
 const DEV_CONF = merge(base, {
   devServer: {
@@ -42,8 +38,8 @@ const DEV_CONF = merge(base, {
           to: '/recruit/app',
         },
         {
-          from: /^\/recruit\/admin\//,
-          to: '/recruit/admin',
+          from: /^\/recruit\/manage\//,
+          to: '/recruit/manage',
         },
         {
           from: /^\/recruit\/auth\//,
@@ -51,7 +47,7 @@ const DEV_CONF = merge(base, {
         },
       ],
     },
-    proxy: isRdProxy ? proxyTable : undefined,
+    proxy: useProxy ? proxyTable : undefined,
   },
 
   mode: 'development',
@@ -73,20 +69,15 @@ const DEV_CONF = merge(base, {
         return `file://${info.absoluteResourcePath}`;
       },
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: resolve(__dirname, '../dist/'),
-          to: resolve(__dirname, '../../server/src/main/resources/fe-static/'),
-        },
-      ],
-    }),
   ],
 
   watchOptions: {
     aggregateTimeout: 200,
     poll: 1000,
-    ignored: [resolve('../dist/**/*')],
+    ignored: [
+      resolve('../dist/'),
+      resolve('../../server/src/main/resources/fe-static/'),
+    ],
   },
 });
 

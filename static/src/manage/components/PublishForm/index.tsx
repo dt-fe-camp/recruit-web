@@ -6,7 +6,7 @@
 
 import { Form, Input, Modal, Typography, Cascader, Result, Button, Spin, Select, Layout, Col } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
-import { ADMIN_API, get, post, SERVER_ERROR_MSG } from '@api';
+import { MANAGE_API, get, post, SERVER_ERROR_MSG } from '@api';
 import cls from './index.less';
 import { DESC_PLACEHOLDER, PUBLISH_DEFINITION, SHORT_TIP } from './const';
 import { ComponentDtsItem, convertToDts, RespDtsItem } from '@/common/utils';
@@ -93,7 +93,7 @@ export const PublishForm = (): JSX.Element => {
     form.validateFields().then((value) => {
       console.log('formValue: ', value);
       setPageState(PageState.LOADING);
-      post<never>(ADMIN_API.PUBLISH_JOB, value).then((res) => {
+      post<never>(MANAGE_API.PUBLISH_JOB, value).then((res) => {
         const { code } = res;
         if (code === 0) {
           Modal.success({
@@ -109,7 +109,7 @@ export const PublishForm = (): JSX.Element => {
 
   const requestData = useCallback(() => {
     setPageState(PageState.LOADING);
-    get<PublishDtsResp>(ADMIN_API.PUBLISH_DTS_LIST)
+    get<PublishDtsResp>(MANAGE_API.PUBLISH_DTS_LIST)
       .then((res) => {
         const { code, data } = res;
         if (code !== 0) {
