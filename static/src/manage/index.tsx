@@ -3,7 +3,7 @@
  * @author afcfzf(9301462@qq.com)
  */
 
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import '../common/css/reset.less';
 import { render } from 'react-dom';
 import { Publish } from './pages/publish/index';

@@ -6,6 +6,12 @@
 package recruit.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
@@ -14,21 +20,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import io.swagger.annotations.Api;
 import recruit.model.SysUser;
-import recruit.utils.ResponseResult;
+import recruit.model.admin.user.ApiLoginBody;
+import recruit.utils.Result;
 
 @Api(tags="客户端")
 @RestController
 public class Auth {
 
   @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseResult login(@RequestBody SysUser user) {
-    System.out.println("======" + user);
-    // 登录
-    // return loginService.login(user);
-    return new ResponseResult(null);
+  public Result login(@RequestBody ApiLoginBody user) {
+    Subject subject = SecurityUtils.getSubject();
+    UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+    String errMsg = "";
+    try {
+      subject.login(token);
+    } catch (UnknownAccountException err) {
+      errMsg = "用户不存在";
+    } catch (IncorrectCredentialsException err) {
+      errMsg = "密码不正确";
+    }
+
+    if (errMsg.equals("")) {
+      SysUser sysUser = (SysUser)subject.getPrincipal();
+      return Result.success(sysUser.getId());
+    }
+
+    return Result.fail(-1, errMsg);
   }
 
   @RequestMapping(value={"/auth/**/{path:[^\\.]+}", "/auth", "auth"})

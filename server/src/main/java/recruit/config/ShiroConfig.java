@@ -28,7 +28,7 @@ public class ShiroConfig {
     // 权限设置
     Map<String, String> map = new Hashtable<>();
     map.put("/manager", "authc");
-    map.put("/api/manager/**", "authc");
+    map.put("/api/manage/**", "authc");
     factoryBean.setFilterChainDefinitionMap(map);
     factoryBean.setLoginUrl("/auth/login");
     return factoryBean;

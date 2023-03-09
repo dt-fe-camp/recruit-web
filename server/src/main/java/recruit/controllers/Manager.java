@@ -38,7 +38,7 @@ public class Manager {
   @Autowired
   PublishService adminPublishService;
 
-  @GetMapping(value="/api/manager/publishFieldsDts")
+  @GetMapping(value="/api/manage/publishFieldsDts")
   public String getPublishFieldsDts(HttpServletResponse response)
     throws InvocationTargetException, JsonProcessingException, IllegalAccessException {
     Map<String, AdminPublishResultItem> adminPublishDtsMap = adminPublishService.getPublishDataSource();
@@ -46,15 +46,15 @@ public class Manager {
   }
 
   @ResponseBody
-  @PostMapping(value="/api/manager/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value="/api/manage/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result publish(@RequestBody @Valid AdminPublishBody body) {
     adminPublishService.saveJob(body);
     return Result.success();
   }
 
-  @RequestMapping(value={"/manager/**/{path:[^\\.]+}", "/manager", "manager"})
+  @RequestMapping(value={"/manage/**/{path:[^\\.]+}", "/manage", "manage"})
   public ModelAndView getApp(ModelMap map) {
-    ModelAndView mav = new ModelAndView("admin/index.html");
+    ModelAndView mav = new ModelAndView("manage/index.html");
     mav.addObject("myName", "aaaa");
     return mav;
   }
