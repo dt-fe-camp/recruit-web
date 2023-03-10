@@ -5,4 +5,4 @@
 
 export * from './request';
 
-export { MANAGE_API } from './manage';
+export { MANAGE_API } from './manager';

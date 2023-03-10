@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import io.jsonwebtoken.Claims;
 import recruit.dao.admin.UserDao;
 import recruit.model.SysUser;
-import recruit.utils.JwtUtil;
+import recruit.utils.JwtUtils;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -32,9 +32,9 @@ public class UserTest {
 
   @Test
   public void testJWT() throws Exception {
-    String jwtToken = JwtUtil.createJWT("3");
+    String jwtToken = JwtUtils.createJWT("3");
     System.out.println("jwtToken: " + jwtToken);
-    Claims jwtObj = JwtUtil.parseJWT(jwtToken);
+    Claims jwtObj = JwtUtils.parseJWT(jwtToken);
     System.out.println("decrypt_jwt: " + jwtObj.getSubject());
     assertEquals("3", jwtObj.getSubject());
   }
