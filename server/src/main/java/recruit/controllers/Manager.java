@@ -70,7 +70,7 @@ public class Manager {
 
   @RequestMapping(value = { "/manager/**/{path:[^\\.]+}", "/manager", "manager" })
   public ModelAndView getApp(ModelMap map) {
-    ModelAndView mav = new ModelAndView("manage/index.html");
+    ModelAndView mav = new ModelAndView("manager/index.html");
     mav.addObject("myName", "aaaa");
     return mav;
   }
