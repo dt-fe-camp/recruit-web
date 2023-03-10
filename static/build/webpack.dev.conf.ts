@@ -38,8 +38,8 @@ const DEV_CONF = merge(base, {
           to: '/recruit/app',
         },
         {
-          from: /^\/recruit\/manage\//,
-          to: '/recruit/manage',
+          from: /^\/recruit\/manager\//,
+          to: '/recruit/manager',
         },
         {
           from: /^\/recruit\/auth\//,

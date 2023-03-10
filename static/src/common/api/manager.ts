@@ -4,6 +4,6 @@
  */
 
 export const MANAGE_API = {
-  PUBLISH_DTS_LIST: '/api/manage/publishFieldsDts',
-  PUBLISH_JOB: '/api/manage/publish',
+  PUBLISH_DTS_LIST: '/api/manager/publishFieldsDts',
+  PUBLISH_JOB: '/api/manager/publish',
 };

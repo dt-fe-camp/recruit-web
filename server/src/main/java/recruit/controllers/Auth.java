@@ -7,11 +7,6 @@ package recruit.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
@@ -21,40 +16,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
+import recruit.dao.admin.UserDao;
 import recruit.model.SysUser;
 import recruit.model.admin.user.ApiLoginBody;
+import recruit.utils.JwtUtils;
 import recruit.utils.Result;
 
-@Api(tags="客户端")
+import java.util.HashMap;
+import java.util.Map;
+
+@Api(tags = "客户端")
 @RestController
 public class Auth {
 
+  @Autowired
+  private UserDao userDao;
+
   @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result login(@RequestBody ApiLoginBody user) {
-    Subject subject = SecurityUtils.getSubject();
-    UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
-    String errMsg = "";
-    try {
-      subject.login(token);
-    } catch (UnknownAccountException err) {
-      errMsg = "用户不存在";
-    } catch (IncorrectCredentialsException err) {
-      errMsg = "密码不正确";
+    SysUser sysUser = userDao.findUserByUserName(user.getUserName());
+    if (sysUser == null) {
+      return Result.fail(-1, "用户名不存在");
     }
 
-    if (errMsg.equals("")) {
-      SysUser sysUser = (SysUser)subject.getPrincipal();
-      return Result.success(sysUser.getId());
+    if (!sysUser.getPassword().equals(user.getPassword())) {
+      return Result.fail(-1, "密码错误!");
     }
 
-    return Result.fail(-1, errMsg);
+    String token = JwtUtils.getJwtToken(sysUser.getUserName(), sysUser.getNickName());
+    Map map = new HashMap();
+    map.put("token", token);
+
+    return Result.success(map);
   }
 
-  @RequestMapping(value={"/auth/**/{path:[^\\.]+}", "/auth", "auth"})
+  @RequestMapping(value = { "/auth/**/{path:[^\\.]+}", "/auth", "auth" })
   public ModelAndView getApp(HttpServletRequest req, ModelMap map) throws Exception {
     ModelAndView mav = new ModelAndView("auth/index.html");
     mav.addObject("globalData", null);
     return mav;
   }
-
 }

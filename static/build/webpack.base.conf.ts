@@ -18,7 +18,7 @@ export const resolve = (...args: string[]): string => path.resolve(__dirname, ..
 
 const titleMap: Record<string, string> = {
   app: `客户端${IS_DEV ? '-dev' : ''}`,
-  manage: `管理端${IS_DEV ? '-dev' : ''}`,
+  manager: `管理端${IS_DEV ? '-dev' : ''}`,
   auth: `鉴权${IS_DEV ? '-dev' : ''}`,
 };
 
@@ -67,7 +67,7 @@ const lessLoader = [
 
 const entry = {
   app: './src/app/index.js',
-  manage: './src/manage/index.tsx',
+  manager: './src/manager/index.tsx',
   auth: './src/auth/index.tsx',
 };
 

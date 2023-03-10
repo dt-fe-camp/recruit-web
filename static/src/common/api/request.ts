@@ -5,6 +5,11 @@
 
 import axios, { AxiosRequestConfig } from 'axios';
 import { message } from 'antd';
+import { AUTH_TOKEN_KEY } from '../const/request';
+
+export const getAuthToken = (): string | null => window.localStorage.getItem(AUTH_TOKEN_KEY);
+
+export const setAuthToken = (token: string): void => window.localStorage.setItem(AUTH_TOKEN_KEY, token);
 
 declare interface RequestConfig extends AxiosRequestConfig {
   showErrorTipWhenCodeNotZero: boolean;
@@ -30,6 +35,14 @@ const requestConfig: RequestConfig = {
 
 export const request = axios.create(requestConfig);
 
+request.interceptors.request.use((req) => {
+  const token = getAuthToken();
+  if (token && req.headers) {
+    req.headers['auth-token'] = token;
+  }
+  return req;
+});
+
 request.interceptors.response.use((resp) => {
   const { status, data, config } = resp;
 
@@ -41,6 +54,12 @@ request.interceptors.response.use((resp) => {
 
   const { code, message: msg } = data;
   const { showErrorTipWhenCodeNotZero } = config as RequestConfig;
+
+  if (code === 401) {
+    return message.error('当前登录状态已失效!').then(() => {
+      window.location.href = '/recruit/auth';
+    });
+  }
 
   if (code !== 0 && showErrorTipWhenCodeNotZero) {
     message.error(msg);

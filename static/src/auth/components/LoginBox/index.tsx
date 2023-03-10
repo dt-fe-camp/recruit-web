@@ -3,7 +3,7 @@
  * @author afcfzf(9301462@qq.com)
  */
 
-import { post } from '@/common/api';
+import { post, setAuthToken } from '@/common/api';
 import { AUTH_API } from '@/common/api/auth';
 import { useRefCallback } from '@rc-hooks/use';
 import { Button, Checkbox, Form, Input } from 'antd';
@@ -29,16 +29,21 @@ export const LoginBox = (): JSX.Element => {
     form.validateFields().then((value) => {
       console.log('value: ', value);
       const { agreement, ...data } = value;
-      post<never>(AUTH_API.LOGIN_URL, data).then((res) => {
-        const { code } = res;
+      post<{ token: string }>(AUTH_API.LOGIN_URL, data).then((res) => {
+        const { code, data } = res;
         if (code === 0) {
           const callbackUrl = new URLSearchParams(window.location.search).get('callback');
+
+          if (data.token) {
+            setAuthToken(data.token);
+          }
+
           if (callbackUrl) {
             window.location.href = callbackUrl;
             return;
           }
 
-          window.location.href = '/recruit/manage';
+          window.location.href = '/recruit/manager';
         }
       });
     });
@@ -92,7 +97,7 @@ export const LoginBox = (): JSX.Element => {
       >
         <Checkbox>
           <div style={{ fontSize: 12 }}>
-            同意6<a href="#">《用户服务协议》</a>和<a href="#">《隐私正则》</a>
+            同意<a href="#">《用户服务协议》</a>和<a href="#">《隐私正则》</a>
           </div>
         </Checkbox>
       </Form.Item>
