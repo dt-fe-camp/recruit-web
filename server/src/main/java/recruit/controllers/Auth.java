@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +21,9 @@ import recruit.model.SysUser;
 import recruit.model.admin.user.ApiLoginBody;
 import recruit.utils.JwtUtils;
 import recruit.utils.Result;
-import javax.crypto.SecretKey;
 
+import java.util.HashMap;
+import java.util.Map;
 
 @Api(tags = "客户端")
 @RestController
@@ -35,7 +35,6 @@ public class Auth {
   @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result login(@RequestBody ApiLoginBody user) {
     SysUser sysUser = userDao.findUserByUserName(user.getUserName());
-    SecretKey key = JwtUtils.generalKey();
     if (sysUser == null) {
       return Result.fail(-1, "用户名不存在");
     }
@@ -44,7 +43,11 @@ public class Auth {
       return Result.fail(-1, "密码错误!");
     }
 
-    return Result.success();
+    String token = JwtUtils.getJwtToken(sysUser.getUserName(), sysUser.getNickName());
+    Map map = new HashMap();
+    map.put("token", token);
+
+    return Result.success(map);
   }
 
   @RequestMapping(value = { "/auth/**/{path:[^\\.]+}", "/auth", "auth" })

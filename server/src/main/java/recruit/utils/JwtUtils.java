@@ -6,9 +6,11 @@
 package recruit.utils;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import recruit.exception.AuthorityException;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -34,8 +36,8 @@ public class JwtUtils {
     public static final Long JWT_EXPIRE = 60 * 1000L;
 
     /*
-    * 设置秘钥明文
-    */
+     * 设置秘钥明文
+     */
     private static String authSecret;
 
     public static void setAuthSecret(String key) {
@@ -54,7 +56,7 @@ public class JwtUtils {
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
 
-                .setSubject("afcfzf-user")
+                .setSubject("recruit-web")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRE))
 
@@ -67,13 +69,14 @@ public class JwtUtils {
         return JwtToken;
     }
 
-     /**
+    /**
      * 判断token是否存在与有效
+     *
      * @param jwtToken
      * @return
      */
     public static boolean checkToken(String jwtToken) {
-        if(!StringUtils.hasLength(jwtToken)) {
+        if (!StringUtils.hasLength(jwtToken)) {
             return false;
         }
 
@@ -86,15 +89,19 @@ public class JwtUtils {
         return true;
     }
 
-       /**
+    /**
      * 判断token是否存在与有效
+     *
      * @param request
      * @return
      */
     public static boolean checkToken(HttpServletRequest request) {
         try {
-            String jwtToken = request.getHeader("token");
-            if(ObjectUtils.isEmpty(jwtToken)) return false;
+            String jwtToken = request.getHeader("auth-token");
+            if (ObjectUtils.isEmpty(jwtToken)) {
+                return false;
+            }
+
             Jwts.parser().setSigningKey(authSecret).parseClaimsJws(jwtToken);
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,20 +110,25 @@ public class JwtUtils {
         return true;
     }
 
-        /**
+    /**
      * 根据token字符串获取会员id
+     *
      * @param request
      * @return
      */
     public static String getMemberIdByJwtToken(HttpServletRequest request) {
-        if (!checkToken(request)){
-           throw new RuntimeException();
+        if (!checkToken(request)) {
+            throw new AuthorityException(500, "token 为空！");
         }
+
         String jwtToken = request.getHeader("token");
-        if(ObjectUtils.isEmpty(jwtToken)) return "";
-        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
+        if (ObjectUtils.isEmpty(jwtToken)) {
+            return "";
+        }
+
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(authSecret).parseClaimsJws(jwtToken);
         Claims claims = claimsJws.getBody();
-        return (String)claims.get("id");
+        return (String) claims.get("name");
     }
 
 }
