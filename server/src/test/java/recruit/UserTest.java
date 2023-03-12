@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import io.jsonwebtoken.Claims;
 import recruit.dao.admin.UserDao;
-import recruit.model.SysUser;
+import recruit.model.MgrUser;
 import recruit.utils.JwtUtils;
 
 @SpringBootTest
@@ -26,7 +26,7 @@ public class UserTest {
 
   @Test
   public void testFindUserById() {
-    SysUser user = userDao.findUserByUserName("markjia");
+    MgrUser user = userDao.findUserByUserName("markjia");
     assertEquals("markjia", user.getUserName());
   }
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import io.swagger.annotations.Api;
 import recruit.dao.admin.UserDao;
-import recruit.model.SysUser;
+import recruit.model.MgrUser;
 import recruit.model.admin.user.ApiLoginBody;
 import recruit.utils.JwtUtils;
 import recruit.utils.Result;
@@ -34,7 +34,7 @@ public class Auth {
 
   @PostMapping(value = "/api/auth/login", consumes = MediaType.APPLICATION_JSON_VALUE)
   public Result login(@RequestBody ApiLoginBody user) {
-    SysUser sysUser = userDao.findUserByUserName(user.getUserName());
+    MgrUser sysUser = userDao.findUserByUserName(user.getUserName());
     if (sysUser == null) {
       return Result.fail(-1, "用户名不存在");
     }

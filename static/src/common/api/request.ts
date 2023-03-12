@@ -56,7 +56,7 @@ request.interceptors.response.use((resp) => {
   const { showErrorTipWhenCodeNotZero } = config as RequestConfig;
 
   if (code === 401) {
-    return message.error('当前登录状态已失效!').then(() => {
+    return message.error(msg).then(() => {
       window.location.href = '/recruit/auth';
     });
   }

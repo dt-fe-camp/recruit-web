@@ -2,7 +2,7 @@ package recruit.model;
 
 import java.util.Date;
 
-public class SysUser {
+public class MgrUser {
     private Long id;
 
     private String userName;

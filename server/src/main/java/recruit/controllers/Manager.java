@@ -45,14 +45,14 @@ public class Manager {
 
   @GetMapping(value="/api/manager/publishFieldsDts")
   @ResponseBody
-  public Result getPublishFieldsDts(@RequestHeader(value="auth-token") String token, HttpServletResponse response)
+  public Result getPublishFieldsDts(@RequestHeader(value="auth-token", required=false) String token, HttpServletResponse response)
     throws InvocationTargetException, JsonProcessingException, IllegalAccessException {
     if (StringUtils.isEmpty(token)) {
-      throw new AuthorityException(500, "未授权");
+      return Result.fail(401, "未授权");
     }
 
     if (!JwtUtils.checkToken(token)) {
-      return Result.fail(401, "need-auth");
+      return Result.fail(401, "当前登录状态已失效");
       // throw new AuthorityException(401, "登录失败");
     }
 

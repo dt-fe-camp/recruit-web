@@ -6217,10 +6217,10 @@ CREATE TABLE `sys_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色表';
 
 -- ----------------------------
--- Table structure for sys_user
+-- Table structure for mgr_user
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user` (
+DROP TABLE IF EXISTS `mgr_user`;
+CREATE TABLE `mgr_user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
   `user_name` varchar(64) NOT NULL DEFAULT 'NULL' COMMENT '用户名',
   `nick_name` varchar(64) NOT NULL DEFAULT 'NULL' COMMENT '昵称',
@@ -6240,17 +6240,17 @@ CREATE TABLE `sys_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户表';
 
 -- ----------------------------
--- Records of sys_user
+-- Records of mgr_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (3, 'markjia', 'afcfzf', '$2a$10$YiAg8trwRoVWKWO37xwbl.voEfNsTeOaibAnTk8zQfFLyEWVBU9xi', '0', '9301462@qq.com', '17702421533', '0', NULL, '1', NULL, '2022-05-03 22:23:13', NULL, '2022-05-03 23:45:49', 0);
+INSERT INTO `mgr_user` VALUES (3, 'markjia', 'afcfzf', '$2a$10$YiAg8trwRoVWKWO37xwbl.voEfNsTeOaibAnTk8zQfFLyEWVBU9xi', '0', '9301462@qq.com', '17702421533', '0', NULL, '1', NULL, '2022-05-03 22:23:13', NULL, '2022-05-03 23:45:49', 0);
 COMMIT;
 
 -- ----------------------------
--- Table structure for sys_user_role
+-- Table structure for mgr_user_role
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_role`;
-CREATE TABLE `sys_user_role` (
+DROP TABLE IF EXISTS `mgr_user_role`;
+CREATE TABLE `mgr_user_role` (
   `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户id',
   `role_id` bigint NOT NULL DEFAULT '0' COMMENT '角色id',
   PRIMARY KEY (`user_id`,`role_id`)
@@ -6267,7 +6267,7 @@ BEGIN
 	set @statement = concat(
 		"DROP TABLE IF EXISTS ", @table_name, ";"
 	);
-	
+
 	prepare one_sql from @statement;
 	execute one_sql;
 	DEALLOCATE prepare one_sql;
@@ -6302,11 +6302,11 @@ BEGIN
 	set @table_name = concat("tmp_", result_table_name);
 	call eval(concat("DROP TABLE IF EXISTS ", @table_name));
   call eval(concat(
-		"CREATE TEMPORARY TABLE IF NOT EXISTS ", 
-		@table_name, 
+		"CREATE TEMPORARY TABLE IF NOT EXISTS ",
+		@table_name,
 		"(id INT NOT NULL, `region_code` VARCHAR(128) NOT NULL, `region_name` VARCHAR(128) NOT NULL) DEFAULT CHARSET=utf8")
 	);
-	
+
 	set @i = 0;
 	WHILE @i < @recruit_list_count DO
  		set @region_code_one = "";
@@ -6316,13 +6316,13 @@ BEGIN
 		prepare one_sql from @statement;
 		execute one_sql;
 		deallocate prepare one_sql;
-		
+
 		call sp_split(@region_code_one, ",");
-		
+
 		set @region_code_len = 0;
 		select count(DISTINCT key_words) into @region_code_len from temp_key_split;
 		call log_msg(@region_code_len);
-		
+
 		set @j = 0;
 		set @region_name_one = "";
 		set @region_parent_value = "region";
@@ -6333,25 +6333,25 @@ BEGIN
 			prepare one_sql from @query;
 			execute one_sql;
 			deallocate prepare one_sql;
-			
+
 			if (@j > 0) then
 				set @region_parent_value = @last_region_value_item;
-			else 
+			else
 				set @region_parent_value = "region";
 			end if;
-			
+
 			set @last_region_value_item = @region_value_item;
-			
+
 			set @j = @j + 1;
 			set @region_name_item = "";
-			set @query_name = concat("select name into @region_name_item from ", "dts_item_level_", @j, " d where d.parent_value=\"", @region_parent_value, "\" and d.value=", @region_value_item); 
+			set @query_name = concat("select name into @region_name_item from ", "dts_item_level_", @j, " d where d.parent_value=\"", @region_parent_value, "\" and d.value=", @region_value_item);
 			prepare sql_query_name from @query_name;
 			execute sql_query_name;
 			deallocate prepare sql_query_name;
 			set @region_name_one = concat(@region_name_one, @region_name_item);
 			call log_msg(concat(@region_parent_value, "-", @region_value_item, "-", @region_name_item, "-", @region_name_one));
 		end while;
-		
+
 		call eval(concat("insert into ", @table_name, "(id, region_code, region_name) values (@id, @region_code_one, @region_name_one)"));
 		set @i = @i + 1;
 	END WHILE;
@@ -6425,7 +6425,7 @@ while(instr(words,regex)<>0) DO
 INSERT temp_key_split(key_words) VALUES (substring(words,1,instr(words,regex)-1));
 set words = INSERT(words,1,instr(words,regex),'');
 END WHILE;
-INSERT temp_key_split(key_words) VALUES (words); 
+INSERT temp_key_split(key_words) VALUES (words);
 END;
 ;;
 delimiter ;

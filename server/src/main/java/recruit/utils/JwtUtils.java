@@ -7,30 +7,22 @@ package recruit.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import recruit.exception.AuthorityException;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
-
-import java.net.HttpRetryException;
-import java.util.Base64;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * JWT工具类
  */
 public class JwtUtils {
+
+    public static final String REQUEST_AUTH_KEY = "auth-token";
 
     // 有效期为: 1分钟就过期
     public static final Long JWT_EXPIRE = 60 * 1000L;
@@ -56,7 +48,7 @@ public class JwtUtils {
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("alg", "HS256")
 
-                .setSubject("recruit-web")
+                .setSubject("recruit-manager")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRE))
 
@@ -97,7 +89,7 @@ public class JwtUtils {
      */
     public static boolean checkToken(HttpServletRequest request) {
         try {
-            String jwtToken = request.getHeader("auth-token");
+            String jwtToken = request.getHeader(REQUEST_AUTH_KEY);
             if (ObjectUtils.isEmpty(jwtToken)) {
                 return false;
             }
@@ -121,7 +113,7 @@ public class JwtUtils {
             throw new AuthorityException(500, "token 为空！");
         }
 
-        String jwtToken = request.getHeader("token");
+        String jwtToken = request.getHeader(REQUEST_AUTH_KEY);
         if (ObjectUtils.isEmpty(jwtToken)) {
             return "";
         }
