@@ -41,7 +41,7 @@ public class App {
   private AppService appService;
 
   @ApiOperation(value = "招聘信息列表")
-  @PostMapping(value = "/api/app/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/api/app/list")
   public Result list(@RequestBody @Valid AppListQueryBody queryBody) throws JsonProcessingException {
     String regionCode = "";
     String title = "";
